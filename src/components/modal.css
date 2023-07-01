@@ -35,8 +35,8 @@
     justify-content:flex-start !important;
     align-items: center !important;
     flex-direction:column !important;
-    max-height: 500px !important;
-    max-width: 350px !important;
+    max-height: 220px !important;
+    max-width: 300px !important;
     outline: none !important;
     box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2) !important;
     padding: 10px !important;

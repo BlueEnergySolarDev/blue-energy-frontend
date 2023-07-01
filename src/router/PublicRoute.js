@@ -1,28 +1,9 @@
-import React from 'react'
-import PropTypes from "prop-types";
-import { Redirect,Route } from "react-router-dom";
+import React from "react";
+import { useSelector } from "react-redux";
+import {Navigate, Outlet } from "react-router-dom";
 
-export const PublicRoute  = ({
+export const PublicRoute = ({
     isAuthenticated,
-    component: Component,
-    ...rest
 }) => {
-    
-    //localStorage.setItem('lastPath', rest.location.pathname);
-
-    return (
-        <Route { ...rest }
-            component={ (props) => (
-                ( isAuthenticated )
-                    ? ( <Redirect to="/" /> ) 
-                    : ( <Component { ...props } /> )
-            )}
-        
-        />
-    )
+    return !isAuthenticated ? <Outlet/> : <Navigate to={'/'}/>;
 }
-
-PublicRoute.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired,
-  component: PropTypes.func.isRequired,
-};

@@ -10,51 +10,72 @@ export const startLogin = (emaill, password) => {
     if (body.ok) {
       localStorage.setItem("token", body.token);
       localStorage.setItem("token-init-date", new Date().getTime());
-      dispatch(login({ uid: body.uid, nombre: body.nombre, rol: body.rol, maxFree: body.maxFree, acctok: body.acctok, pubkey: body.pubkey, vendedorid: body.vendedorid }));
+      dispatch(login({ uid: body.uid, name: body.name, role: body.role, office: body.office }));
+      dispatch(startGetUser(body.uid));
     } else {
       Swal.fire("Error", body.msg, "error");
     }
   };
 };
-export const startRegister = (dni, email, password, nombree, apellidoo, comisionEnt, roll, comisionRRPP, rrppp, maxFree, eventoo, uid) => {
+export const startRegister = (email, password, namee, lastnamee, office) => {
   return async (dispatch) => {
-    let rol;
-    if (roll.value === "ESPECIAL") {
-      rol = "ESPECIAL";
-    } else {
-      rol = "RRPP";
-    }
-    const estado = true;
-    const rrpp = rrppp.value;
-    const rrppNombre = rrppp.label;
-    const evento = eventoo.value;
-    const eventoNombre = eventoo.label;
-    const rolEvento = roll.value;
-    const passwordShow = password;
-    const online = false;
-    const uidadmin = uid;
-    let apellido = apellidoo.toUpperCase();
-    let nombre = nombree.toUpperCase();
-    //const evento = eventoo.value;
+    const role = 'closer';
+    const lastname = lastnamee.toUpperCase();
+    const name = namee.toUpperCase();
     const resp = await fetchConToken(
       "auth/new",
-      { email, password, passwordShow, nombre, apellido, rol, dni, estado, comisionEnt, comisionRRPP, rrpp, maxFree, evento, eventoNombre, rolEvento, rrppNombre, online, uidadmin },
+      { email, password, name, lastname, role, office },
       "POST"
     );
     const body = await resp.json();
     if (body.ok) {
-      // dispatch(Asociar(body.uid, evento));
-      Swal.fire("Exito", "RRPP Cargado con exito", "success");
+      Swal.fire("Success", "Register sucessfully", "success");
+      localStorage.setItem("token", body.token);
+      localStorage.setItem("token-init-date", new Date().getTime());
+      dispatch(login({ uid: body.uid, name: body.name, role: body.role, office: body.office }));
+      dispatch(startGetUser(body.uid));
     } else {
       Swal.fire("Error", body.msg, "error");
     }
   };
 };
 
-export const startAsociar = (uid) => ({
+export const startUpdateUser = (email, password, namee, lastnamee) => {
+  return async (dispatch) => {
+    let lastname = lastnamee.toUpperCase();
+    let name = namee.toUpperCase();
+    const resp = await fetchConToken(
+      `auth/edituser`,
+      { email, name, password, lastname },
+      "PUT"
+    );
+    const body = await resp.json();
+    if (body.ok) {
+      Swal.fire("Success", "Updated sucessfully", "success");
+    } else {
+      Swal.fire("Error", body.msg, "error");
+    }
+  };
+};
+
+export const startGetUser = (id) => {
+  return async (dispatch) => {
+    const resp = await fetchConToken(`auth/${id}`);
+    const body = await resp.json();
+    if (body.ok) {
+      dispatch(startAsociar(body.user));
+    } else {
+      Swal.fire("Error", body.msg, "error");
+    }
+
+  };
+};
+
+export const startAsociar = (user) => ({
   type: types.userAsociar,
-  payload: uid,
+  payload: user,
 });
+
 export const startClearUserAsoc = () => ({
   type: types.startClearUserAsoc,
   payload: null,
@@ -67,9 +88,9 @@ export const startChecking = () => {
     if (body.ok) {
       localStorage.setItem("token", body.token);
       localStorage.setItem("token-init-date", new Date().getTime());
-      dispatch(login({ uid: body.uid, nombre: body.nombre, rol: body.rol, acctok: body.acctok, pubkey: body.pubkey, vendedorid: body.vendedorid }));
+      dispatch(login({ uid: body.uid, name: body.name, role: body.role, office: body.office }));
+      dispatch(startGetUser(body.uid));
     } else {
-      //Swal.fire("Error", body.msg, "error");
       dispatch(checkingFinish());
     }
   };
@@ -78,7 +99,7 @@ const checkingFinish = () => ({
   type: types.authCheckingFinish,
 });
 
-const login = (user) => ({
+export const login = (user) => ({
   type: types.authLogin,
   payload: user,
 });
@@ -89,6 +110,12 @@ export const startLogout = () => {
     dispatch(logout());
   }
 }
+
 const logout = () => ({
   type: types.authLogout
 })
+
+export const setRedirect = (redirect) => ({
+  type: types.setRedirect,
+  payload: redirect,
+});

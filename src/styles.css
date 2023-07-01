@@ -1,10 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&display=swap");
+* {
+  font-family: Helvetica, Arial, sans-serif;
+  margin: 0px;
+}
+
+.btn-primary{
+  background-color: #3664F9;
+}
 html,
 body {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
   height: 100vh;
   width: 100vw;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
   /* overflow-y: hidden; */
 }
+
+body::-webkit-scrollbar{
+  display: none;
+}
+
 .dropdown-pull-right {
   float: right !important;
   right: 0 !important;

@@ -6,7 +6,7 @@ export const NotFoundScreen = () => {
     <div className="container">
       <div className="alert alert-danger d-flex flex-column justify-content-center align-items-center mt-5">
         <h1 style={{color:"red"}}>Error</h1>
-        <h3>No existe ninguna pagina aquí</h3>
+        <h3>There is no page here</h3>
       </div>
     </div>
   );

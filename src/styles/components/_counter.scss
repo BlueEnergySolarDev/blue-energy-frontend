@@ -1,0 +1,66 @@
+/*   color variables */
+$clr-negative: #ff1744;
+$clr-positive: #2abf77;
+$clr-gray100: #f0f7f8;
+$clr-gray200: #cfd8dc;
+$clr-gray300: #a7b7be;
+$clr-gray400: #6b7e86;
+$clr-gray500: #425a65;
+
+.button__wrapper {
+  display: flex;
+  gap: 1rem;
+
+  &>* {
+    border: none;
+    background-color: white;
+    box-shadow: 0px 0px 10px $clr-gray200;
+    font-weight: bold;
+    font-size: 2rem;
+    color: $primary;
+    border-radius: 50%;
+    outline: none;
+    height: 4rem;
+    width: 4rem;
+    cursor: pointer;
+    transition: background-color 250ms ease-in-out, transform 50ms ease-in-out;
+
+    &:hover {
+      background-color: $primary;
+    }
+
+    &:active {
+      transform: scale(0.9);
+    }
+
+    // &:focus {
+    //   box-shadow: 0 0 0 3px $secondary;
+    // }
+  }
+}
+
+.positive {
+  color: $clr-positive;
+  animation: pulse 500ms ease-in-out;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+.border-bright {
+  border-color: white;
+}
+
+.border-bright:focus {
+  box-shadow: 0px 0px 5px 2px $secondary;
+  outline: 0;
+}

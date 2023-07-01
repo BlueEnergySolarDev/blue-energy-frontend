@@ -1,13 +1,103 @@
+@font-face {
+  font-family: "Georgina";
+  src: url("../../fonts/GeorginaDemo-Regular.woff2");
+}
+
+@font-face {
+  font-family: "Mollen-Bold";
+  src: url("../../fonts/Mollen-BoldPersonalUse.woff2");
+}
+
+@font-face {
+  font-family: "Mollen-Regular";
+  src: url("../../fonts/Mollen-RegularPersonalUse.woff2");
+}
+
+@font-face {
+  font-family: "Qanelas-Medium";
+  src: url("../../fonts/QanelasSoftDEMO-Medium.woff2");
+}
+
+
+@font-face {
+  font-family: "Qanelas-Light";
+  src: url("../../fonts/QanelasSoftDEMO-UltraLight.woff2");
+}
+
 * {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: "Mollen-Regular", Arial, Helvetica, sans-serif;
   margin: 0px;
+}
+
+h1 {
+  font-family: "Georgina", Arial, sans-serif !important;
+}
+
+h2 {
+  font-family: "Qanelas-Medium", Arial, sans-serif !important;
+}
+
+h3 {
+  font-family: "Mollen-Bold", Arial, sans-serif !important;
+}
+
+h4 {
+  font-family: "Qanelas-Medium", Arial, sans-serif !important;
+}
+
+h5 {
+  font-family: "Mollen-Regular", Arial, sans-serif !important;
+}
+
+h6 {
+  font-family: "Mollen-Regular", Arial, sans-serif !important;
+}
+
+p {
+  font-family: "Mollen-Regular", Arial, sans-serif !important;
 }
 
 html,
 body {
   height: 100vh;
   width: 100vw;
+
+  //Background bottom detail
+  // background-image: url("../../images/elemento1.png");
+  // background-size: 5%;
+  // background-position: bottom;
+  // background-position-y: 107%;
+  // background-repeat: repeat-x;
 }
+
 main {
   width: 100%;
+}
+
+.primary-back {
+  background-color: $primary;
+}
+
+.secondary-back {
+  background-color: $secondary;
+}
+
+.btn-secondary-back{
+  background: linear-gradient(to right, $secondary, $primary);
+}
+
+.primary-color {
+  color: $primary;
+}
+
+.secondary-color {
+  color: $secondary;
+}
+
+.degrade-dl-back {
+  background: linear-gradient($primary, $secondary);
+}
+
+.degrade-ld-back {
+  background: linear-gradient(to bottom right, $secondary, $primary);
 }

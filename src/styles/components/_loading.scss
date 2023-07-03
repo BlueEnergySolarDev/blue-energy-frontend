@@ -3,7 +3,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&display=swap");
 
 .body__loading{
-  background-color:$primary;
+  background: linear-gradient($secondary, $primary);
   display: grid;
   place-content: center;
   min-height: 100vh;

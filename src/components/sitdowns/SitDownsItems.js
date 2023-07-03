@@ -8,8 +8,8 @@ export const SitDownsItems = ({ sitDowns, loading }) => {
   }
   return (
     <div className='container-fluid'>
-      <h2>Simple Sit Down Register</h2>
-      {sitDowns && <table className={isMobile ? "d-block overflow-scroll table table-bordered table-striped" : "table table-bordered table-striped table-hover"}>
+      
+      {sitDowns && <table className={isMobile ? "d-block overflow-scroll table table-sm table-bordered table-striped" : "table table-bordered table-striped table-hover"}>
         <thead className='primary-back text-light'>
           <tr>
             <th className="text-center" scope="col">User</th>

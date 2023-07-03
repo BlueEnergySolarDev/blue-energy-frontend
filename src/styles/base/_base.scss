@@ -83,7 +83,9 @@ main {
 }
 
 .btn-secondary-back{
-  background: linear-gradient(to right, $secondary, $primary);
+  // background: linear-gradient(to right, $secondary, $primary);
+  background: linear-gradient($secondary, $primary);
+  // background:  $secondary;
 }
 
 .primary-color {
@@ -100,4 +102,9 @@ main {
 
 .degrade-ld-back {
   background: linear-gradient(to bottom right, $secondary, $primary);
+}
+
+.block-scroll {
+  overflow-x: hidden;
+  height: 100vh;
 }

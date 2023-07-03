@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { uiCloseModal } from "../../actions/ui";
 import { fetchSinToken } from "../../helpers/fetch";
 import "../modal.css";
-import { login } from "../../actions/auth";
+import { login, startGetUser } from "../../actions/auth";
 
 
 const customStyles = {
@@ -60,6 +60,7 @@ export const OfficeModal = ({ bodi }) => {
         localStorage.setItem("token", body.token);
         localStorage.setItem("token-init-date", new Date().getTime());
         dispatch(login({ uid: body.uid, name: body.name, role: body.role, office: body.office }));
+        dispatch(startGetUser(body.uid));
         closeModal();
       } else {
         closeModal();

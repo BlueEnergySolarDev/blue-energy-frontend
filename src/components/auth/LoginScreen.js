@@ -1,14 +1,13 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useForm } from "../../hooks/useForm";
-import "./login.css";
 import { isMobile } from 'react-device-detect';
 import { Link } from "react-router-dom";
 import { fetchSinToken } from "../../helpers/fetch";
 import Swal from "sweetalert2";
 import logo from '../../images/logo.png';
 import { GoogleLogin } from '@react-oauth/google';
-import { login } from "../../actions/auth";
+import { login, startGetUser } from "../../actions/auth";
 import { OfficeModal } from "./OfficeModal";
 import { uiOpenModal } from "../../actions/ui";
 import { useState } from "react";
@@ -53,6 +52,7 @@ export const LoginScreen = () => {
               localStorage.setItem("token", body.token);
               localStorage.setItem("token-init-date", new Date().getTime());
               dispatch(login({ uid: body.uid, name: body.name, role: body.role, office: body.office }));
+              dispatch(startGetUser(body.uid));
             } else {
               Swal.fire("Error", body.msg, "error");
             }
@@ -73,8 +73,8 @@ export const LoginScreen = () => {
   return (
     <>
       {isMobile ?
-        <div className="login-container" data-aos="fade-down" data-aos-duration="1000">
-          <h2 className="d-flex align-items-center justify-content-center mt-4" style={{ color: "#000" }}><img src={logo} alt="" /></h2>
+        <div className="login-container block-scroll" data-aos="fade-down" data-aos-duration="1000">
+          <h1 className="d-flex align-items-center justify-content-center mt-5" style={{ color: "#000" }}><img src={logo} className="w-100" alt="Blue Energy Solar Logo" /></h1>
           <div className="row">
             <div className="col-md-11 col-11 login-form-1 mt-5">
               <h3>LOGIN</h3>
@@ -102,20 +102,22 @@ export const LoginScreen = () => {
                 <div className="form-group d-flex justify-content-center">
                   <input type="submit" className="btn btn-primary btn-bright" value="Login" />
                 </div>
-                <div className="d-flex justify-content-center align-items-center mt-3">
+                <div className="w-100 d-flex justify-content-center align-items-center mt-3">
                   <GoogleLogin
                     onSuccess={onSuccess}
                     onError={onError}
                   />
                 </div>
               </form>
+              <div className="form-group d-flex justify-content-center">
+                <h5>Not have an account? <Link className='text-decoration-none text-primary' to='/register'>Register</Link></h5>
+              </div>
             </div>
-
           </div>
         </div>
         :
         <div className="login-container" data-aos="fade-up" data-aos-duration="1000">
-          <h2 className="d-flex align-items-center justify-content-center" style={{ color: "#000" }}><img src={logo} className="w-30" alt="" /></h2>
+          <h1 className="d-flex align-items-center justify-content-center" style={{ color: "#000" }}><img src={logo} className="w-30" alt="Blue Energy Solar Logo" /></h1>
           <div className="row mt-2">
             <div className="col-md-6 col-6 me-5 login-form-3">
               <h3>LOGIN</h3>

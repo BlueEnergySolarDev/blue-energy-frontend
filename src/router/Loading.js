@@ -30,7 +30,7 @@ export const Loading = ({ checking }) => {
   return (
     <div className="body__loading">
       <h1>
-        Cargando
+        Loading
         <div ref={div_dot} className="dots">
           <span className="dot z"></span>
           <span className="dot f"></span>

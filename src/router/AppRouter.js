@@ -12,19 +12,22 @@ import { PublicRoute } from "./PublicRoute";
 import { AddSitDown } from "../components/sitdowns/AddSitDown";
 import { ProfileScreen } from "../components/user/ProfileScreen";
 import { AdminScreen } from "../components/user/AdminScreen";
+import { CloserScreen } from "../components/user/CloserScreen";
+import { SitDownsScreen } from "../components/sitdowns/SitDownsScreen";
 
 export const AppRouter = () => {
   const dispatch = useDispatch();
-  const { checking, uid } = useSelector((state) => state.auth);
-  // const [isAdmin, setisAdmin] = useState(false);
-  // useEffect(() => {
-  //   if (role === 'ADMIN') {
-  //     setisAdmin(true);
-  //   }
-  //   // if(rol === 'CLIENTE'){
-  //   //   setisCliente(true);
-  //   // }
-  // }, [setisAdmin, role]);
+  const { checking, uid, role } = useSelector((state) => state.auth);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isCloser, setIsCloser] = useState(false);
+  useEffect(() => {
+    if (role === 'admin') {
+      setIsAdmin(true);
+    }
+    if (role === 'closer') {
+      setIsCloser(true);
+    }
+  }, [setIsAdmin, setIsCloser, role]);
 
   useEffect(() => {
     dispatch(startChecking());
@@ -38,8 +41,9 @@ export const AppRouter = () => {
       <Routes>
         <Route element={<PrivateRoute isAuthenticated={!!uid} />}>
           <Route element={<Layout />}>
-            <Route path="/" element={<AdminScreen />} />
-            <Route path="/addsitdown" element={<AddSitDown />} />
+            <Route path="/" element={isAdmin ? <AdminScreen /> : <CloserScreen />} />
+            <Route path="/addsitdown" element={isCloser && <AddSitDown />} />
+            <Route path="/sitdown" element={isAdmin && <SitDownsScreen />} />
             <Route path="/profile" element={<ProfileScreen />} />
             <Route path="*" element={<NotFoundScreen />} />
           </Route>

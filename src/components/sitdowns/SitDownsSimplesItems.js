@@ -14,7 +14,8 @@ export const SitDownsSimplesItems = ({ sitDowns, loading }) => {
           <tr>
             <th className="text-center" scope="col">User</th>
             <th className="text-center" scope="col">Office</th>
-            <th className="text-center" scope="col">Amount</th>
+            <th className="text-center" scope="col">Sit downs</th>
+            <th className="text-center" scope="col">Fail credits</th>
             <th className="text-center" scope="col">Date</th>
           </tr>
         </thead>
@@ -26,6 +27,7 @@ export const SitDownsSimplesItems = ({ sitDowns, loading }) => {
                   <td className="text-center">{sitDown.user.name} {sitDown.user.lastname}</td>
                   <td className="text-center">{sitDown.office}</td>
                   <td className="text-center">{sitDown.amount}</td>
+                  <td className="text-center">{sitDown.fail_credit}</td>
                   <td className="text-center">{sitDown.date ? format(new Date(sitDown.date) ,'MM/dd/yyyy HH:mm') : "-"}</td>
                 </tr>
               </tbody>

@@ -14,24 +14,24 @@ export const useForm = (initialState = {}) => {
     });
   };
 
-  const handleInputChangeAndCounter = (e, type) => {
+  const handleInputChangeAndCounter = (e, type, inputName) => {
     if (typeof e === 'number' && type !== undefined) {
       if (type === 'plus') {
         setValues({
           ...values,
-          ['sAmount']: +values.sAmount + e
+          [inputName]: +values[inputName] + e
         });
       } else if (type === 'minus') {
-        if (values.sAmount > 0) {
+        if (values[inputName] > 0) {
           setValues({
             ...values,
-            ['sAmount']: +values.sAmount - e
+            [inputName]: +values[inputName] - e
           });
         }
       } else {
         setValues({
           ...values,
-          ['sAmount']: 0
+          [inputName]: 0
         });
       }
     } else {

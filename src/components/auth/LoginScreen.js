@@ -25,8 +25,8 @@ export const LoginScreen = () => {
     e.preventDefault();
     const startLogin = async (emaill, password) => {
       let email = emaill.toLowerCase();
-      const resp = await fetchSinToken("auth", { email, password }, "POST");
-      const body = await resp.json();
+      const body = await fetchSinToken("auth", { email, password }, "POST");
+      // const body = await body.json();
       if (body.ok) {
         localStorage.setItem("token", body.token);
         localStorage.setItem("token-init-date", new Date().getTime());
@@ -40,14 +40,14 @@ export const LoginScreen = () => {
 
   const onSuccess = (res) => {
     const startGoogle = async (res) => {
-      const resp = await fetchSinToken(`auth/newgoogle`, { credential: res.credential }, "POST");
-      const bodi = await resp.json();
+      const bodi = await fetchSinToken(`auth/newgoogle`, { credential: res.credential }, "POST");
+      // const bodi = await body.json();
       if (bodi.isVerified) {
         if (bodi.created) {
           const startLoginGoogle = async (email, name, lastname) => {
-            const role = 'closer';
-            const resp = await fetchSinToken("auth/google", { email, name, lastname, role }, "POST");
-            const body = await resp.json();
+            const role = 'office_manager';
+            const body = await fetchSinToken("auth/google", { email, name, lastname, role }, "POST");
+            // const body = await body.json();
             if (body.ok) {
               localStorage.setItem("token", body.token);
               localStorage.setItem("token-init-date", new Date().getTime());

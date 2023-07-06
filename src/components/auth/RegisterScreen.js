@@ -149,7 +149,7 @@ export const RegisterScreen = () => {
         </div>
         :
         <div className="login-container" data-aos="fade-up" data-aos-duration="1000">
-          <h1 className="d-flex align-items-center justify-content-center" style={{ color: "#000" }}><img src={logo} className="w-100" alt="Blue Energy Solar Logo" /></h1>
+          <h1 className="d-flex align-items-center justify-content-center" style={{ color: "#000" }}><img src={logo} className="w-30" alt="Blue Energy Solar Logo" /></h1>
           <div className="row mt-2">
             <div className="col-md-6 col-6 me-5 login-form-3">
               <h3>REGISTER</h3>

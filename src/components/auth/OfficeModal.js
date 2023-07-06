@@ -53,9 +53,9 @@ export const OfficeModal = ({ bodi }) => {
   const handleSetOffice = async (e) => {
     e.preventDefault();
     const startLoginGoogle = async (email, name, lastname, office) => {
-      const role = 'closer';
-      const resp = await fetchSinToken("auth/google", { email, name, lastname, role, office }, "POST");
-      const body = await resp.json();
+      const role = 'office_manager';
+      const body = await fetchSinToken("auth/google", { email, name, lastname, role, office }, "POST");
+      // const body = await body.json();
       if (body.ok) {
         localStorage.setItem("token", body.token);
         localStorage.setItem("token-init-date", new Date().getTime());

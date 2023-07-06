@@ -5,8 +5,7 @@ import { types } from "../types/types";
 export const startLogin = (emaill, password) => {
   return async (dispatch) => {
     let email = emaill.toLowerCase();
-    const resp = await fetchSinToken("auth", { email, password }, "POST");
-    const body = await resp.json();
+    const body = await fetchSinToken("auth", { email, password }, "POST");
     if (body.ok) {
       localStorage.setItem("token", body.token);
       localStorage.setItem("token-init-date", new Date().getTime());
@@ -19,17 +18,16 @@ export const startLogin = (emaill, password) => {
 };
 export const startRegister = (email, password, namee, lastnamee, office) => {
   return async (dispatch) => {
-    const role = 'closer';
+    const role = 'office_manager';
     const lastname = lastnamee.toUpperCase();
     const name = namee.toUpperCase();
-    const resp = await fetchConToken(
+    const body = await fetchConToken(
       "auth/new",
       { email, password, name, lastname, role, office },
       "POST"
     );
-    const body = await resp.json();
     if (body.ok) {
-      Swal.fire("Success", "Register sucessfully", "success");
+      Swal.fire("Success", "Register successfully", "success");
       localStorage.setItem("token", body.token);
       localStorage.setItem("token-init-date", new Date().getTime());
       dispatch(login({ uid: body.uid, name: body.name, role: body.role, office: body.office }));
@@ -40,18 +38,34 @@ export const startRegister = (email, password, namee, lastnamee, office) => {
   };
 };
 
-export const startUpdateUser = (email, password, namee, lastnamee) => {
+export const startUpdateUser = (email, namee, lastnamee, office) => {
   return async (dispatch) => {
     let lastname = lastnamee.toUpperCase();
     let name = namee.toUpperCase();
-    const resp = await fetchConToken(
-      `auth/edituser`,
-      { email, name, password, lastname },
+    const body = await fetchConToken(
+      `auth/edit`,
+      { email, name, lastname, office },
       "PUT"
     );
-    const body = await resp.json();
     if (body.ok) {
-      Swal.fire("Success", "Updated sucessfully", "success");
+      Swal.fire("Success", "Updated successfully", "success");
+      dispatch(login({ uid: body.uid, name: body.name, role: body.role, office: body.office }));
+      dispatch(startGetUser(body.uid));
+    } else {
+      Swal.fire("Error", body.msg, "error");
+    }
+  };
+};
+
+export const startChangePassword = (id, password) => {
+  return async (dispatch) => {
+    const body = await fetchConToken(
+      `auth/changepass/${id}`,
+      { password },
+      "PUT"
+    );
+    if (body.ok) {
+      Swal.fire("Success", body.msg, "success");
     } else {
       Swal.fire("Error", body.msg, "error");
     }
@@ -60,8 +74,7 @@ export const startUpdateUser = (email, password, namee, lastnamee) => {
 
 export const startGetUser = (id) => {
   return async (dispatch) => {
-    const resp = await fetchConToken(`auth/${id}`);
-    const body = await resp.json();
+    const body = await fetchConToken(`auth/${id}`);
     if (body.ok) {
       dispatch(startAsociar(body.user));
     } else {
@@ -83,8 +96,7 @@ export const startClearUserAsoc = () => ({
 
 export const startChecking = () => {
   return async (dispatch) => {
-    const resp = await fetchConToken("auth/renew");
-    const body = await resp.json();
+    const body = await fetchConToken("auth/renew");
     if (body.ok) {
       localStorage.setItem("token", body.token);
       localStorage.setItem("token-init-date", new Date().getTime());

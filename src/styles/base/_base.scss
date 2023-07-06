@@ -83,8 +83,8 @@ main {
 }
 
 .btn-secondary-back{
-  // background: linear-gradient(to right, $secondary, $primary);
-  background: linear-gradient($secondary, $primary);
+  // background: linear-gradient(to bottom right, $secondary, $primary);
+  background: linear-gradient($secondary, $terciary, $primary);
   // background:  $secondary;
 }
 
@@ -101,10 +101,20 @@ main {
 }
 
 .degrade-ld-back {
-  background: linear-gradient(to bottom right, $secondary, $primary);
+  background: linear-gradient(to bottom right, $secondary, $terciary, $primary);
 }
 
 .block-scroll {
   overflow-x: hidden;
   height: 100vh;
+}
+
+hr {
+  border: 0;
+  clear:both;
+  display:block;
+  width: 96%;               
+  background-color:white;
+  opacity: .75;
+  height: 1px;
 }

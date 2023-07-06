@@ -4,28 +4,29 @@ import { Link } from 'react-router-dom';
 import { fetchConToken } from '../../helpers/fetch';
 import Swal from 'sweetalert2';
 import { useForm } from '../../hooks/useForm';
-import { PaginatedSitDownsItems } from '../sitdowns/PaginatedSitDownsItems';
 import { isMobile } from 'react-device-detect';
+import { PaginatedSitDownsSimplesItems } from '../sitdowns/PaginatedSitDownsSimplesItems';
+import { OfficeCard } from './OfficeCard';
 
-export const CloserScreen = () => {
+export const OfficeManagerScreen = () => {
   const { uid, office } = useSelector((state) => state.auth);
   const [loading, setLoading] = useState(false);
   const [sitDowns, setSitDowns] = useState([]);
-  const [actualAmount, setActualAmount] = useState(0);
+  const [officeData, setOfficeData] = useState(0);
   const [formAmountValues, , , , , handleAmountInputChange] = useForm({
     sAmount: 0,
+    sFailCredit: 0
   });
-  const { sAmount } = formAmountValues;
+  const { sAmount, sFailCredit } = formAmountValues;
 
   useEffect(() => {
     let isMounted = true;
     setLoading(true);
     const getSitDownCounter = async () => {
-      const resp = await fetchConToken(`sitdowns/counter/${office}`);
-      const body = await resp.json();
+      const body = await fetchConToken(`sitdowns/counter/${office}`);
       if (body.ok) {
         if (isMounted) {
-          setActualAmount(body.amount);
+          setOfficeData(body.office);
         }
 
       } else {
@@ -34,8 +35,7 @@ export const CloserScreen = () => {
     }
     getSitDownCounter();
     const getSitDownsSimples = async () => {
-      const resp = await fetchConToken(`sitdowns/simple/${office}`);
-      const body = await resp.json();
+      const body = await fetchConToken(`sitdowns/simple/${office}`);
       if (isMounted) {
         setSitDowns(body.sitDownsSimples);
 
@@ -48,28 +48,26 @@ export const CloserScreen = () => {
     }
   }, []);
 
-  const incrementCount = () => {
-    handleAmountInputChange(1, 'plus')
+  const incrementCount = (name) => {
+    handleAmountInputChange(1, 'plus', name)
   }
 
-  const decrementCount = () => {
-    handleAmountInputChange(1, 'minus')
+  const decrementCount = (name) => {
+    handleAmountInputChange(1, 'minus', name)
   }
 
-  const resetCount = () => {
-    handleAmountInputChange(0, 'reset')
+  const resetCount = (name) => {
+    handleAmountInputChange(0, 'reset', name)
   }
 
   const saveSitDown = () => {
     const addSitDown = async () => {
-      const resp = await fetchConToken("sitdowns/addsimple", { amount: sAmount, office, user: uid }, "POST");
-      const body = await resp.json();
+      const body = await fetchConToken("sitdowns/addsimple", { amount: sAmount, office, user: uid, fail_credit: sFailCredit }, "POST");
       if (body.ok) {
-        setActualAmount(body.amount);
+        setOfficeData(body.office);
         Swal.fire("Success", 'Amount updated sucessfully', "success");
         const getSitDownsSimples = async () => {
-          const resp = await fetchConToken(`sitdowns/simple/${office}`);
-          const body = await resp.json();
+          const body = await fetchConToken(`sitdowns/simple/${office}`);
           setSitDowns(body.sitDownsSimples);
         }
         getSitDownsSimples();
@@ -87,12 +85,12 @@ export const CloserScreen = () => {
           ?
           <div className='container text-center' data-aos="fade-up" data-aos-duration="1000">
             <div className='d-flex flex-column justify-content-evenly align-items-center'>
-              <Link to="/addsitdown" className='mb-3 mt-3'>
+              <Link to="/sitdowndetail" className='mb-3 mt-3'>
                 <button className="btn btn-primary btn-lg btn-secondary-back" title="Add sit down detail">
                   <i className="fas fa-handshake"></i> Sit Down Detail
                 </button>
               </Link>
-              <h1 style={{ color: "black" }}>SIT DOWN</h1>
+              <h1 className='text-dark'>SIT DOWN</h1>
               <div className='w-100'>
                 <div className='d-flex flex-column justify-content-center align-items-center'>
                   <div className='mb-2'>
@@ -122,15 +120,13 @@ export const CloserScreen = () => {
                     <i className="fas fa-floppy-disk"></i> Save
                   </button>
                 </div>
-                <div className='mt-5 d-flex flex-column justify-content-center align-items-center rounded-3 degrade-ld-back text-light p-2'>
-                  <h2 className='mb-2 '>Actual amount in {office}</h2>
-                  <span className="ps-5 pe-5 border rounded-1 bg-light primary-color fw-bold h3">{actualAmount}</span>
-                </div>
+                <OfficeCard office={officeData} />
               </div>
+
               <div className='d-flex flex-column justify-content-center align-items-center mt-5 mb-3 w-100' data-aos="fade-up" data-aos-duration="1000">
-                <h2>Simple Sit Down Register</h2>
+                <h2 className='text-dark'>Simple Sit Down Register</h2>
                 {sitDowns.length > 0 ?
-                  <PaginatedSitDownsItems itemsPerPage={10} items={sitDowns} loading={loading} />
+                  <PaginatedSitDownsSimplesItems itemsPerPage={10} items={sitDowns} loading={loading} />
                   :
                   <div className='p-5'>
                     <span className="h3 text-dark">No sit downs</span>
@@ -142,51 +138,69 @@ export const CloserScreen = () => {
           :
           <div className='container text-center' data-aos="fade-up" data-aos-duration="1000">
             <div className='d-flex flex-column justify-content-evenly align-items-center'>
-              <Link to="/addsitdown" className='mb-3 mt-3'>
+              <Link to="/sitdowndetail" className='mb-2 mt-2'>
                 <button className="btn btn-primary btn-lg btn-secondary-back" title="Add sit down detail">
                   <i className="fas fa-handshake"></i> Sit Down Detail
                 </button>
               </Link>
-              <h1 style={{ color: "black" }}>SIT DOWN</h1>
+              <h1 className='text-dark'>SIT DOWN</h1>
               <div className='row w-100'>
-                <div className='d-flex flex-column justify-content-center align-items-center col-6'>
+                <div className='d-flex flex-column justify-content-center align-items-center col'>
                   <div className='mb-2'>
-                    <h2 className='fw-bold'>Amount</h2>
+                    <h2 className='fw-bold h4'>Amount</h2>
                   </div>
                   <input
-                    className="p-1 border rounded-pill border-primary primary-back text-light text-center fw-bold h3 border-bright"
+                    className="border rounded-pill border-primary primary-back text-light text-center fw-bold h3 border-bright"
                     type="number"
                     name="sAmount"
                     autoFocus
                     value={sAmount}
                     onChange={handleAmountInputChange}
                   />
-
                   <div className='button__wrapper d-flex justify-content-center align-items-center m-3'>
-                    <button className="me-2 btn btn-primary btn-lg" onClick={decrementCount}>
+                    <button className="me-2 btn btn-primary" onClick={() => { decrementCount('sAmount') }}>
                       <i className="fa fa-circle-minus"></i>
                     </button>
-                    <button className="ms-2 btn btn-primary btn-lg" onClick={incrementCount}>
+                    <button className="me-2 ms-2 btn btn-primary" onClick={() => { resetCount('sAmount') }}>
+                      <i className="fa fa-arrow-rotate-left"></i>
+                    </button>
+                    <button className="ms-2 btn btn-primary" onClick={() => { incrementCount('sAmount') }}>
                       <i className="fa fa-circle-plus"></i>
                     </button>
                   </div>
-                  <button className="btn btn-primary btn-bright-sm " onClick={resetCount}>
-                    <i className="fa fa-arrow-rotate-left"></i> Reset
-                  </button>
-                  <button onClick={saveSitDown} className="btn btn-success btn-bright-sm mt-4" title="Sit down control">
+                  <div className='mb-2'>
+                    <h2 className='fw-bold h4'>Fail Credits</h2>
+                  </div>
+                  <input
+                    className="border rounded-pill border-primary primary-back text-light text-center fw-bold h3 border-bright"
+                    type="number"
+                    name="sFailCredit"
+                    value={sFailCredit}
+                    onChange={handleAmountInputChange}
+                  />
+
+                  <div className='button__wrapper d-flex justify-content-center align-items-center m-3'>
+                    <button className="me-2 btn btn-primary" onClick={() => { decrementCount('sFailCredit') }}>
+                      <i className="fa fa-circle-minus"></i>
+                    </button>
+                    <button className="me-2 ms-2 btn btn-primary" onClick={() => { resetCount('sFailCredit') }}>
+                      <i className="fa fa-arrow-rotate-left"></i>
+                    </button>
+                    <button className="ms-2 btn btn-primary" onClick={() => { incrementCount('sFailCredit') }}>
+                      <i className="fa fa-circle-plus"></i>
+                    </button>
+                  </div>
+                  <button onClick={saveSitDown} className="btn btn-success btn-bright-sm mt-2" title="Sit down control">
                     <i className="fas fa-floppy-disk"></i> Save
                   </button>
                 </div>
-                <div className='col-6 mt-5 d-flex flex-column justify-content-center align-items-center rounded-3 degrade-ld-back text-light p-2'>
-                  <h2 className='mb-2 '>Actual amount in {office}</h2>
-                  <span className="ps-5 pe-5 border rounded-1 bg-light primary-color fw-bold h3">{actualAmount}</span>
-                </div>
+                <OfficeCard office={officeData} />
               </div>
 
               <div className='d-flex flex-column justify-content-center align-items-center mt-5 mb-3 w-100' data-aos="fade-up" data-aos-duration="1000">
-                <h2>Simple Sit Down Register</h2>
+                <h2 className='text-dark'>Simple Sit Down Register</h2>
                 {sitDowns.length > 0 ?
-                  <PaginatedSitDownsItems itemsPerPage={10} items={sitDowns} loading={loading} />
+                  <PaginatedSitDownsSimplesItems itemsPerPage={10} items={sitDowns} loading={loading} />
                   :
                   <div className='p-5'>
                     <span className="h3 text-dark">No sit downs</span>
@@ -196,7 +210,6 @@ export const CloserScreen = () => {
             </div>
           </div>
       }
-
     </>
   );
 };

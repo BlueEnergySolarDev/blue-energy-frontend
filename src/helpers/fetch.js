@@ -4,7 +4,7 @@ export const fetchSinToken = (endpoint, data, method = "GET") => {
   const url = `${baseURL}/${endpoint}`;
 
   if (method === "GET") {
-    return fetch(url);
+    return fetch(url).then(res => res.json());
   } else {
     return fetch(url, {
       method,
@@ -12,7 +12,7 @@ export const fetchSinToken = (endpoint, data, method = "GET") => {
         "Content-type": "application/json",
       },
       body: JSON.stringify(data),
-    });
+    }).then(res => res.json());
   }
 };
 export const fetchConToken = (endpoint, data, method = "GET") => {
@@ -25,7 +25,7 @@ export const fetchConToken = (endpoint, data, method = "GET") => {
       headers: {
         "x-token": token,
       },
-    });
+    }).then(res => res.json());
   } else {
     return fetch(url, {
       method,
@@ -34,6 +34,6 @@ export const fetchConToken = (endpoint, data, method = "GET") => {
         "x-token": token,
       },
       body: JSON.stringify(data),
-    });
+    }).then(res => res.json());
   }
 };

@@ -13,7 +13,6 @@ import 'react-datetime-picker/dist/DateTimePicker.css';
 import 'react-calendar/dist/Calendar.css';
 import 'react-clock/dist/Clock.css';
 import { isMobile } from 'react-device-detect';
-import axios from 'axios';
 import useSWR from "swr";
 
 const colourStyles = {
@@ -38,102 +37,39 @@ export const AddSitDown = () => {
     setDate(e);
   };
 
-  const fetcher = (url) =>
-    axios
-      .get(url, {
-        headers: { Authorization: "Bearer " + process.env.REACT_APP_SALESRABBIT_TOKEN }
-      })
-      .then((res) => res.data);
-
-  const { data, } = useSWR("https://api.salesrabbit.com/users?role=Rep", fetcher);
-  const { data: treps } = useSWR("https://api.salesrabbit.com/users?role=TRep", fetcher);
-
+  const { data: canvasserApi } = useSWR("canvassers");
   const canvassers = [];
-  if (data?.data && treps?.data) {
-    let aux = "";
-    if (office === "Boca Raton") {
-      aux = "Boca";
-      //REP
-      for (let i = 0; i < data?.data.length; i++) {
-        if (data?.data[i].office === aux) {
-          const canvasser = {
-            value: data?.data[i].firstName.trim() + ' ' + data?.data[i].lastName,
-            label: data?.data[i].firstName.trim() + ' ' + data?.data[i].lastName,
-          }
-          canvassers.push(canvasser);
+  if (canvasserApi?.canvassers) {
+    const canvassersLen = canvasserApi?.canvassers.length
+    for (let i = 0; i < canvassersLen; i++) {
+      if (canvasserApi?.canvassers[i].office === office) {
+        const canvasser = {
+          value: canvasserApi?.canvassers[i].id,
+          label: canvasserApi?.canvassers[i].firstName + ' ' + canvasserApi?.canvassers[i].lastName
         }
-      }
-      //TREP
-      for (let i = 0; i < treps?.data.length; i++) {
-        if (treps?.data[i].office === aux) {
-          const canvasser = {
-            value: treps?.data[i].firstName.trim() + ' ' + treps?.data[i].lastName,
-            label: treps?.data[i].firstName.trim() + ' ' + treps?.data[i].lastName
-          }
-          canvassers.push(canvasser);
-        }
-      }
-    } else {
-      //REP
-      for (let i = 0; i < data?.data.length; i++) {
-        if (data?.data[i].office === office) {
-          const canvasser = {
-            value: data?.data[i].firstName.trim() + ' ' + data?.data[i].lastName,
-            label: data?.data[i].firstName.trim() + ' ' + data?.data[i].lastName,
-          }
-          canvassers.push(canvasser);
-        }
-      }
-      //TREP
-      for (let i = 0; i < treps?.data.length; i++) {
-        if (treps?.data[i].office === office) {
-          const canvasser = {
-            value: treps?.data[i].firstName.trim() + ' ' + treps?.data[i].lastName,
-            label: treps?.data[i].firstName.trim() + ' ' + treps?.data[i].lastName
-          }
-          canvassers.push(canvasser);
-        }
+        canvassers.push(canvasser);
       }
     }
-
   }
-
   const [canvasser, setCanvasser] = useState(null);
   const handleCanvasser = (e) => {
     setCanvasser(e);
   };
 
-  const { data: closersApi } = useSWR("https://api.salesrabbit.com/users?role=Closer", fetcher);
-
+  const { data: closersApi } = useSWR("closers");
   const closers = [];
-  if (closersApi?.data) {
-    let aux = "";
-    if (office === "Boca Raton") {
-      aux = "Boca";
-      //CLOSER
-      for (let i = 0; i < closersApi?.data.length; i++) {
-        if (closersApi?.data[i].office === aux) {
-          const closer = {
-            value: closersApi?.data[i].firstName.trim() + ' ' + closersApi?.data[i].lastName,
-            label: closersApi?.data[i].firstName.trim() + ' ' + closersApi?.data[i].lastName,
-          }
-          closers.push(closer);
+  if (closersApi?.closers) {
+    const closersLen = closersApi?.closers.length;
+    for (let i = 0; i < closersLen; i++) {
+      if (closersApi?.closers[i].office === office) {
+        const closer = {
+          value: closersApi?.closers[i].id,
+          label: closersApi?.closers[i].firstName + ' ' + closersApi?.closers[i].lastName,
         }
-      }
-    } else {
-      //CLOSER
-      for (let i = 0; i < closersApi?.data.length; i++) {
-        if (closersApi?.data[i].office === office) {
-          const closer = {
-            value: closersApi?.data[i].firstName.trim() + ' ' + closersApi?.data[i].lastName,
-            label: closersApi?.data[i].firstName.trim() + ' ' + closersApi?.data[i].lastName,
-          }
-          closers.push(closer);
-        }
+        closers.push(closer);
       }
     }
   }
-
   const [closer, setCloser] = useState(null);
   const handleCloser = (e) => {
     setCloser(e);
@@ -158,7 +94,15 @@ export const AddSitDown = () => {
         "error"
       );
     }
-    dispatch(startAddSitDown(sName, sAddress, sPhoneNumber, sEmail, sReason, date, status.value, closer.value, canvasser.value, office));
+    let closerr = null;
+    if (closer) {
+      closerr = closer?.value;
+    }
+    let canvasserr = null;
+    if (canvasser) {
+      canvasserr = canvasser.value;
+    }
+    dispatch(startAddSitDown(sName, sAddress, sPhoneNumber, sEmail, sReason, date, status.value, closerr, canvasserr, office));
   };
   const handleReturn = () => {
     navigate('/sitdowndetail');

@@ -21,10 +21,10 @@ export const AdminScreen = () => {
                 </button>
               </Link>
               <h1 className='text-dark'>SIT DOWN</h1>
-              {offices.length > 0 &&
+              {offices?.offices.length > 0 &&
                 <div className="container px-4">
                   <div className='row mt-5 gx-5'>
-                    {offices.map((office) => {
+                    {offices?.offices.map((office) => {
                       return (
                         <OfficeCard key={office.name} office={office} />
                       )
@@ -47,11 +47,18 @@ export const AdminScreen = () => {
           :
           <div className='container text-center' data-aos="fade-up" data-aos-duration="1000">
             <div className='d-flex flex-column justify-content-evenly align-items-center'>
-              <Link to="/sitdowndetail" className='mb-3 mt-3'>
-                <button className="btn btn-primary btn-lg btn-secondary-back" title="Add sit down detail">
-                  <i className="fas fa-handshake"></i> Sit Down Detail
-                </button>
-              </Link>
+              <div className='m-2'>
+                <Link to="/sitdowndetail" className='m-3'>
+                  <button className="btn btn-primary btn-lg btn-secondary-back" title="Add sit down detail">
+                    <i className="fas fa-handshake"></i> Sit Down Detail
+                  </button>
+                </Link>
+                <Link to="/users" className='m-3'>
+                  <button className="btn btn-primary btn-lg btn-primary-back" title="Add sit down detail">
+                    <i className="fas fa-user"></i> Users
+                  </button>
+                </Link>
+              </div>
               <h1 className='text-dark'>SIT DOWN</h1>
               {offices?.offices.length > 0 &&
                 <div className="container px-4">

@@ -7,6 +7,7 @@ import { useForm } from '../../hooks/useForm';
 import { isMobile } from 'react-device-detect';
 import { PaginatedSitDownsSimplesItems } from '../sitdowns/PaginatedSitDownsSimplesItems';
 import { OfficeCard } from './OfficeCard';
+import { LoadingSpinner } from '../ui/LoadingSpinner';
 
 export const OfficeManagerScreen = () => {
   const { uid, office } = useSelector((state) => state.auth);
@@ -23,7 +24,7 @@ export const OfficeManagerScreen = () => {
     let isMounted = true;
     setLoading(true);
     const getSitDownCounter = async () => {
-      const body = await fetchConToken(`sitdowns/counter/${office}`);
+      const body = await fetchConToken(`sitdowns/counter/id/${uid}`);
       if (body.ok) {
         if (isMounted) {
           setOfficeData(body.office);
@@ -35,7 +36,7 @@ export const OfficeManagerScreen = () => {
     }
     getSitDownCounter();
     const getSitDownsSimples = async () => {
-      const body = await fetchConToken(`sitdowns/simple/${office}`);
+      const body = await fetchConToken(`sitdowns/simple/id/${uid}`);
       if (isMounted) {
         setSitDowns(body.sitDownsSimples);
 
@@ -85,7 +86,7 @@ export const OfficeManagerScreen = () => {
           ?
           <div className='container text-center' data-aos="fade-up" data-aos-duration="1000">
             <div className='d-flex flex-column justify-content-evenly align-items-center'>
-              <Link to="/sitdowndetail" className='mb-3 mt-3'>
+              <Link to="/sitdowndetail" className='mb-3 mt-3 text-decoration-none'>
                 <button className="btn btn-primary btn-lg btn-secondary-back" title="Add sit down detail">
                   <i className="fas fa-handshake"></i> Sit Down Detail
                 </button>
@@ -137,8 +138,9 @@ export const OfficeManagerScreen = () => {
           </div>
           :
           <div className='container text-center' data-aos="fade-up" data-aos-duration="1000">
+            {/* <LoadingSpinner /> */}
             <div className='d-flex flex-column justify-content-evenly align-items-center'>
-              <Link to="/sitdowndetail" className='mb-2 mt-2'>
+              <Link to="/sitdowndetail" className='mb-2 mt-2 text-decoration-none'>
                 <button className="btn btn-primary btn-lg btn-secondary-back" title="Add sit down detail">
                   <i className="fas fa-handshake"></i> Sit Down Detail
                 </button>

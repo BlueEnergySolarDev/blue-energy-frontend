@@ -82,6 +82,10 @@ main {
   background-color: $secondary;
 }
 
+.btn-primary-back{
+  background: linear-gradient($primary, $terciary, $secondary );
+}
+
 .btn-secondary-back{
   // background: linear-gradient(to bottom right, $secondary, $primary);
   background: linear-gradient($secondary, $terciary, $primary);

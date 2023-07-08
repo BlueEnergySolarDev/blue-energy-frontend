@@ -1,15 +1,8 @@
-import React from "react";
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { startUpdateUser } from "../../actions/auth";
 import { useForm } from "../../hooks/useForm";
-import Select from 'react-select';
-
-const colourStyles = {
-  control: styles => ({ ...styles, width: '100%' }),
-};
 
 export const ProfileGeneralScreen = () => {
   const { userAsoc } = useSelector((state) => state.auth);
@@ -32,20 +25,10 @@ export const ProfileGeneralScreen = () => {
         "error"
       );
     }
-    dispatch(startUpdateUser(rEmail, rName, rLastname, office.value));
+    dispatch(startUpdateUser(rEmail, rName, rLastname));
   };
   const handleReturn = (e) => {
     navigate('/');
-  };
-  const [office, setOffice] = useState(userAsoc ? { value: userAsoc.office, label: userAsoc.office } : null);
-  const offices = [
-    { value: 'Boca Raton', label: 'Boca Raton' },
-    { value: 'Bradenton', label: 'Bradenton' },
-    { value: 'Cape Coral', label: 'Cape Coral' },
-    { value: 'Jacksonville', label: 'Jacksonville' },
-  ];
-  const handleOffice = (e) => {
-    setOffice(e);
   };
   return (
     <>
@@ -87,12 +70,6 @@ export const ProfileGeneralScreen = () => {
                 autoComplete="new-password"
                 onChange={handleUsuarioInputChange}
               />
-            </div>
-            <div className="form-group d-flex flex-column mb-3">
-              <label>Office</label>
-              <div className="w-100">
-                <Select styles={colourStyles} options={offices} value={office} onChange={handleOffice} />
-              </div>
             </div>
             <div className="form-group d-flex justify-content-center mb-1">
               <button type="submit" className="btn btn-primary btn-bright">

@@ -2,7 +2,6 @@ import React from 'react';
 import { useState } from 'react';
 import DateTimePicker from 'react-datetime-picker';
 import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useForm } from '../../hooks/useForm';
@@ -13,29 +12,26 @@ import 'react-calendar/dist/Calendar.css';
 import 'react-clock/dist/Clock.css';
 import { isMobile } from 'react-device-detect';
 import useSWR from "swr";
-import { PaginatedSitDownsAddedItems } from './PaginatedSitDownsAddedItems';
 import { fetchConToken } from '../../helpers/fetch';
 
 const colourStyles = {
   control: styles => ({ ...styles, width: '100%' }),
 };
 
-export const AddSitDown = () => {
+export const EditSitDown = () => {
   const { office, uid } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
+  const { sitDownSelected } = useSelector((state) => state.sitDown);
   const navigate = useNavigate();
   const [formSitDownValues, handleSitDownInputChange] = useForm({
-    sName: "",
-    sAddress: "",
-    sPhoneNumber: "",
-    sEmail: "",
-    sReason: "",
+    sName: sitDownSelected ? sitDownSelected.name : "",
+    sAddress: sitDownSelected ? sitDownSelected.address : "",
+    sPhoneNumber: sitDownSelected ? sitDownSelected.phone_number : "",
+    sEmail: sitDownSelected ? sitDownSelected.email : "",
+    sReason: sitDownSelected ? sitDownSelected.reason : "",
   });
   const { sName, sAddress, sPhoneNumber, sEmail, sReason } = formSitDownValues;
 
-  const [sitDowns, setSitDowns] = useState([]);
-
-  const [date, setDate] = useState(format(new Date(), 'MM-dd-yyyy HH:mm'));
+  const [date, setDate] = useState(sitDownSelected ? format(new Date(sitDownSelected.date), 'MM-dd-yyyy HH:mm') : format(new Date(), 'MM-dd-yyyy HH:mm'));
   const handleDateChange = (e) => {
     setDate(e);
   };
@@ -54,7 +50,7 @@ export const AddSitDown = () => {
       }
     }
   }
-  const [canvasser, setCanvasser] = useState(null);
+  const [canvasser, setCanvasser] = useState(sitDownSelected.canvasser ? { value: sitDownSelected.canvasser.id, label: sitDownSelected.canvasser.firstName + ' ' + sitDownSelected.canvasser.lastName } : null);
   const handleCanvasser = (e) => {
     setCanvasser(e);
   };
@@ -73,12 +69,19 @@ export const AddSitDown = () => {
       }
     }
   }
-  const [closer, setCloser] = useState(null);
+  const [closer, setCloser] = useState(sitDownSelected.closer ? { value: sitDownSelected.closer.id, label: sitDownSelected.closer.firstName + ' ' + sitDownSelected.closer.lastName } : null);
   const handleCloser = (e) => {
     setCloser(e);
   };
 
-  const [status, setStatus] = useState({ value: 'processed', label: <span><i className="fas fa-spinner text-muted"></i> Processed</span> } || null);
+  const [status, setStatus] = useState(sitDownSelected.status
+    ?
+    {
+      value: sitDownSelected.status,
+      label: sitDownSelected.status === 'processed' ? <span><i className="fas fa-spinner text-muted"></i> Processed</span> : sitDownSelected.status === 'incomplete' ? <span><i className="fas fa-exclamation-circle text-warning"></i> Incomplete</span> : sitDownSelected.status === 'fail_credit' ? <span><i className="fas fa-credit-card text-danger"></i> Fail credit</span> : <span><i className="fas fa-check text-success"></i> Payed</span>
+    }
+    : null);
+
   const statuses = [
     { value: 'processed', label: <span><i className="fas fa-spinner text-muted"></i> Processed</span> },
     { value: 'incomplete', label: <span><i className="fas fa-exclamation-circle text-warning"></i> Incomplete</span> },
@@ -105,21 +108,22 @@ export const AddSitDown = () => {
     if (canvasser) {
       canvasserr = canvasser.value;
     }
-    const startAddSitDown = async (name, address, phone_number, email, reason, date, status, closer, canvasser, office, user) => {
-      const body = await fetchConToken(
-        "sitdowns",
-        { name, address, phone_number, email, reason, date, status, closer, canvasser, office, user },
-        "POST"
-      );
-      if (body.ok) {
-        Swal.fire("Success", "Sit down created", "success");
-        const sitdowns = [...sitDowns, body.sitDown]
-        setSitDowns(sitdowns);
-      } else {
-        Swal.fire("Error", body.msg, "error");
+    if (sitDownSelected) {
+      const startUpdateSitDown = async(id, name, address, phone_number, email, reason, date, status, closer, canvasser, office, user) => {
+        const body = await fetchConToken(
+          "sitdowns/update",
+          { id, name, address, phone_number, email, reason, date, status, closer, canvasser, office, user },
+          "PUT"
+        );
+        if (body.ok) {
+          Swal.fire("Success", "Sit down updated", "success");
+          navigate('/sitdowndetail');
+        } else {
+          Swal.fire("Error", body.msg, "error");
+        }
       }
-    };
-    startAddSitDown(sName, sAddress, sPhoneNumber, sEmail, sReason, date, status.value, closerr, canvasserr, office, uid);
+      startUpdateSitDown(sitDownSelected?.id, sName, sAddress, sPhoneNumber, sEmail, sReason, date, status.value, closerr, canvasserr, office, uid);
+    }
   };
   const handleReturn = () => {
     navigate('/sitdowndetail');
@@ -326,13 +330,6 @@ export const AddSitDown = () => {
               </button>
             </div>
           </div>
-          <h1 className="text-dark mb-4 mt-2">Sit Down Detail Added</h1>
-          {
-            sitDowns.length > 0 ?
-              <PaginatedSitDownsAddedItems itemsPerPage={10} items={sitDowns} loading={false} />
-              :
-              <span className="h3 mb-5">No sit downs detail added</span>
-          }
         </div>
     }</>
   );

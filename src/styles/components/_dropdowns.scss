@@ -1,42 +1,29 @@
-.dropdown-menu {
-    // padding: 0;
-    // background-color: white;
-    // color: #3664F9;
-}
-
-.dropdown button {
+.dropdown-nav button {
     color: white;
-    // color: #3664F9;
-    // background-color: #3664F9;
-    // background-color: white;
 }
 
-.dropdown a {
+.dropdown-nav a {
     color: white;
-    // background-color: white;
 }
 
-.dropdown button:hover {
-    // color: #3664F9;
+.dropdown-nav button:hover {
     color: white;
     background-color: #3664F9;
-    // background-color: white;
-
 }
 
-.dropdown a:hover {
+.dropdown-nav a:hover {
     background-color: #3664F9;
     color: white;
 }
 
 @media (min-width: 576px) {
-    .dropdown-menu {
+    .dropdown-menu-nav {
         display: block;
         opacity: 0;
         transition: all 0.2s;
     }
 
-    .dropdown:hover .dropdown-menu {
+    .dropdown-nav:hover .dropdown-menu-nav {
         display: block;
         margin-top: 0;
         opacity: 1;
@@ -44,7 +31,7 @@
 }
 
 @media (min-width: 992px) {
-    .dropdown-menu {
+    .dropdown-menu-nav {
         display: block;
         opacity: 0;
         transition: all 0.2s;
@@ -53,7 +40,7 @@
         left: auto !important;
     }
 
-    .dropdown:hover .dropdown-menu {
+    .dropdown-nav:hover .dropdown-menu-nav {
         display: block;
         margin-top: 0;
         opacity: 1;

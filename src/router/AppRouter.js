@@ -14,6 +14,9 @@ import { ProfileScreen } from "../components/user/ProfileScreen";
 import { AdminScreen } from "../components/user/AdminScreen";
 import { SitDownsScreen } from "../components/sitdowns/SitDownsScreen";
 import { OfficeManagerScreen } from "../components/user/OfficeManagerScreen";
+import { EditUser } from "../components/user/EditUser";
+import { UsersScreen } from "../components/user/UsersScreen";
+import { EditSitDown } from "../components/sitdowns/EditSitDown";
 
 export const AppRouter = () => {
   const dispatch = useDispatch();
@@ -43,6 +46,9 @@ export const AppRouter = () => {
           <Route element={<Layout />}>
             <Route path="/" element={isAdmin ? <AdminScreen /> : <OfficeManagerScreen />} />
             <Route path="/addsitdowndetail" element={isOfficeManager && <AddSitDown />} />
+            <Route path="/editsitdowndetail" element={isOfficeManager && <EditSitDown />} />
+            <Route path="/edituser" element={isAdmin && <EditUser />} />
+            <Route path="/users" element={isAdmin && <UsersScreen />} />
             <Route path="/sitdowndetail" element={<SitDownsScreen />} />
             <Route path="/profile" element={<ProfileScreen />} />
             <Route path="*" element={<NotFoundScreen />} />

@@ -3,6 +3,7 @@ import { types } from "../types/types";
 const initialState = {
   checking: true,
   userAsoc: null,
+  userSelected: null,
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -31,6 +32,11 @@ export const authReducer = (state = initialState, action) => {
     case types.authLogout:
       return {
         checking: false,
+      };
+    case types.userSelected:
+      return {
+        ...state,
+        userSelected: action.payload
       };
     default:
       return state;

@@ -57,6 +57,25 @@ export const startUpdateUser = (email, namee, lastnamee, office) => {
   };
 };
 
+export const startUpdateUserFromAdmin = (email, namee, lastnamee, office, role, status) => {
+  return async (dispatch) => {
+    let lastname = lastnamee.toUpperCase();
+    let name = namee.toUpperCase();
+    const body = await fetchConToken(
+      `auth/editadmin`,
+      { email, name, lastname, office, role, status },
+      "PUT"
+    );
+    if (body.ok) {
+      Swal.fire("Success", "Updated successfully", "success");
+      dispatch(login({ uid: body.uid, name: body.name, role: body.role, office: body.office }));
+      dispatch(startGetUser(body.uid));
+    } else {
+      Swal.fire("Error", body.msg, "error");
+    }
+  };
+};
+
 export const startChangePassword = (id, password) => {
   return async (dispatch) => {
     const body = await fetchConToken(
@@ -130,4 +149,9 @@ const logout = () => ({
 export const setRedirect = (redirect) => ({
   type: types.setRedirect,
   payload: redirect,
+});
+
+export const startSetUser = (user) => ({
+  type: types.userSelected,
+  payload: user,
 });

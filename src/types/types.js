@@ -12,7 +12,11 @@ export const types = {
 
   userAsociar: "[Usuario] Listo para asociar",
   startClearUserAsoc: "[Usuario] Limpiando usuario",
-  
+
   setLoading: "[UI] Recargando",
   setClearLoading: "[UI] Limpiando recarga",
+
+  userSelected: "[User] Set user",
+
+  sitDownSelected: "[Sit Down] Set sit down detail",
 };

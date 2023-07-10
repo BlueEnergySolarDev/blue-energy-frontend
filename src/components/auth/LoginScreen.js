@@ -31,6 +31,7 @@ export const LoginScreen = () => {
         localStorage.setItem("token", body.token);
         localStorage.setItem("token-init-date", new Date().getTime());
         dispatch(login({ uid: body.uid, name: body.name, role: body.role, office: body.office }));
+        dispatch(startGetUser(body.uid));
       } else {
         Swal.fire("Error", body.msg, "error");
       }

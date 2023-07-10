@@ -45,13 +45,13 @@ export const AddSitDown = () => {
   if (canvasserApi?.canvassers) {
     const canvassersLen = canvasserApi?.canvassers.length
     for (let i = 0; i < canvassersLen; i++) {
-      if (canvasserApi?.canvassers[i].office === office) {
-        const canvasser = {
-          value: canvasserApi?.canvassers[i].id,
-          label: canvasserApi?.canvassers[i].firstName + ' ' + canvasserApi?.canvassers[i].lastName
-        }
-        canvassers.push(canvasser);
+      // if (canvasserApi?.canvassers[i].office === office) {
+      const canvasser = {
+        value: canvasserApi?.canvassers[i].id,
+        label: canvasserApi?.canvassers[i].firstName + ' ' + canvasserApi?.canvassers[i].lastName
       }
+      canvassers.push(canvasser);
+      // }
     }
   }
   const [canvasser, setCanvasser] = useState(null);
@@ -64,13 +64,13 @@ export const AddSitDown = () => {
   if (closersApi?.closers) {
     const closersLen = closersApi?.closers.length;
     for (let i = 0; i < closersLen; i++) {
-      if (closersApi?.closers[i].office === office) {
-        const closer = {
-          value: closersApi?.closers[i].id,
-          label: closersApi?.closers[i].firstName + ' ' + closersApi?.closers[i].lastName,
-        }
-        closers.push(closer);
+      // if (closersApi?.closers[i].office === office) {
+      const closer = {
+        value: closersApi?.closers[i].id,
+        label: closersApi?.closers[i].firstName + ' ' + closersApi?.closers[i].lastName,
       }
+      closers.push(closer);
+      // }
     }
   }
   const [closer, setCloser] = useState(null);
@@ -226,6 +226,13 @@ export const AddSitDown = () => {
               </button>
             </div>
           </div>
+          <h1 className="text-dark mb-4 mt-2 h1">Sit Down Detail Added</h1>
+          {
+            sitDowns.length > 0 ?
+              <PaginatedSitDownsAddedItems itemsPerPage={10} items={sitDowns} loading={false} />
+              :
+              <span className="h3 mb-5">No sit downs detail added</span>
+          }
         </div>
         :
         <div className='d-flex flex-column justify-content-center align-items-center mt-4' data-aos="fade-up" data-aos-duration="1000">

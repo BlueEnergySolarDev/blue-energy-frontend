@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { startChangePassword } from "../../actions/auth";
 import { useForm } from "../../hooks/useForm";
+import { isMobile } from "react-device-detect";
 
 export const ChangePasswordScreen = () => {
   const { uid } = useSelector((state) => state.auth);
@@ -49,7 +50,7 @@ export const ChangePasswordScreen = () => {
   return (
     <>
       <div className="d-flex flex-column justify-content-center align-items-center mb-5" data-aos="fade-up" data-aos-duration="1000">
-        <form onSubmit={handleUpdate} className="w-50">
+        <form onSubmit={handleUpdate} className={isMobile ? "w-95" : "w-50"}>
           <h2 className="mb-1 text-dark text-center">Change password</h2>
           <hr className="bg-dark" />
           <div className="form-group mb-2">

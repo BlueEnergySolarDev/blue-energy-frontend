@@ -1,7 +1,6 @@
 import { types } from "../types/types";
 
 const initialState = {
-  sitDownSelected: null,
 };
 
 export const sitDownReducer = (state = initialState, action) => {

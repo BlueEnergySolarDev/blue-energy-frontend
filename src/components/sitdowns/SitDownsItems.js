@@ -15,13 +15,13 @@ export const SitDownsItems = ({ sitDowns, loading }) => {
   const handleEdit = async (id) => {
     const body = await fetchConToken(`sitdowns/getbyid/${id}`);
     dispatch(startSetSitDown(body.sitDown));
+    localStorage.setItem('sitDownId', id);
     navigate('/editsitdowndetail');
   };
   return (
-    <div className='container-fluid'>
-
+    <div className='container-fluid table-responsive mb-2'>
       {sitDowns && <table className={isMobile ? "d-block overflow-scroll table table-sm table-bordered table-striped" : "table table-sm table-bordered table-striped table-hover"}>
-        <thead className='primary-back text-light'>
+        <thead className='primary-back text-light align-middle'>
           <tr>
             <th className="text-center" scope="col">Status</th>
             <th className="text-center" scope="col">Name</th>

@@ -36,7 +36,7 @@ export const Navbar = () => {
                 ?
                 <div className="dropdown dropdown-nav ms-4 text-decoration-none">
                   <strong style={{ fontSize: "18px" }} className="navbar-brand dropdown-toggle text-decoration-none" href="!#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">{name}</strong>
-                  <ul className="dropdown-menu dropdown-menu-nav dropdown-menu-end dropdown-menu-lg-end rounded secondary-back" aria-labelledby="userDropdown">
+                  <ul className="dropdown-menu dropdown-menu-end dropdown-menu-lg-end rounded secondary-back" aria-labelledby="userDropdown">
                     <li><Link className="text-decoration-none dropdown-item dropdown-item-default rounded-1" to="/profile">Profile</Link></li>
                     <li><button onClick={handleLogout} className="dropdown-item rounded-1">Logout</button></li>
                   </ul>
@@ -44,7 +44,7 @@ export const Navbar = () => {
                 :
                 <div className="dropdown dropdown-nav ms-4 text-decoration-none">
                   <strong style={{ fontSize: "18px" }} className="navbar-brand dropdown-toggle text-decoration-none text-light" href="!#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Ingresar</strong>
-                  <ul className="dropdown-menu dropdown-menu-nav dropdown-pull-right rounded-1" aria-labelledby="userDropdown">
+                  <ul className="dropdown-menu dropdown-pull-right rounded-1" aria-labelledby="userDropdown">
                     <li><Link className="text-decoration-none dropdown-item dropdown-item-default rounded-1" to="/login">Login</Link></li>
                     <li><Link className="text-decoration-none dropdown-item dropdown-item-default rounded-1" to="/register">Register</Link></li>
                   </ul>
@@ -65,7 +65,7 @@ export const Navbar = () => {
                 ?
                 <div className="dropdown dropdown-nav ms-4 text-decoration-none">
                   <strong style={{ fontSize: "18px" }} className="navbar-brand dropdown-toggle text-decoration-none" href="!#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">{name}</strong>
-                  <ul className="dropdown-menu dropdown-menu-nav dropdown-menu-end dropdown-menu-lg-end rounded secondary-back" aria-labelledby="userDropdown">
+                  <ul className="dropdown-menu dropdown-menu-end dropdown-menu-lg-end rounded secondary-back" aria-labelledby="userDropdown">
                     <li><Link className="text-decoration-none dropdown-item dropdown-item-default rounded-1" to="/profile">Profile</Link></li>
                     <li><button onClick={handleLogout} className="dropdown-item rounded-1">Logout</button></li>
                   </ul>
@@ -73,7 +73,7 @@ export const Navbar = () => {
                 :
                 <div className="dropdown dropdown-nav ms-4 text-decoration-none">
                   <strong style={{ fontSize: "18px" }} className="navbar-brand dropdown-toggle text-decoration-none text-light" href="!#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Ingresar</strong>
-                  <ul className="dropdown-menu dropdown-menu-nav  dropdown-pull-right rounded-1" aria-labelledby="userDropdown">
+                  <ul className="dropdown-menu dropdown-pull-right rounded-1" aria-labelledby="userDropdown">
                     <li><Link className="text-decoration-none dropdown-item dropdown-item-default rounded-1" to="/login">Login</Link></li>
                     <li><Link className="text-decoration-none dropdown-item dropdown-item-default rounded-1" to="/register">Register</Link></li>
                   </ul>

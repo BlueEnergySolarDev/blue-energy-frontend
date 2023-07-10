@@ -5,9 +5,8 @@ import { fetchConToken } from '../../helpers/fetch';
 import Swal from 'sweetalert2';
 import { useForm } from '../../hooks/useForm';
 import { isMobile } from 'react-device-detect';
-import { PaginatedSitDownsSimplesItems } from '../sitdowns/PaginatedSitDownsSimplesItems';
-import { OfficeCard } from './OfficeCard';
-import { LoadingSpinner } from '../ui/LoadingSpinner';
+import { PaginatedSitDownsSimplesItems } from '../sitdownsimple/PaginatedSitDownsSimplesItems';
+import { OfficeCard } from '../user/OfficeCard';
 
 export const OfficeManagerScreen = () => {
   const { uid, office } = useSelector((state) => state.auth);
@@ -93,38 +92,60 @@ export const OfficeManagerScreen = () => {
               </Link>
               <h1 className='text-dark'>SIT DOWN</h1>
               <div className='w-100'>
-                <div className='d-flex flex-column justify-content-center align-items-center'>
+                <div className='d-flex flex-column justify-content-center align-items-center col'>
                   <div className='mb-2'>
-                    <h2 className='fw-bold'>Amount</h2>
+                    <h2 className='fw-bold h4'>Amount</h2>
                   </div>
                   <input
-                    className="p-1 border rounded-pill border-primary primary-back text-light text-center fw-bold h3 border-bright"
+                    className="border rounded-pill border-primary primary-back text-light text-center fw-bold h3 border-bright"
                     type="number"
                     name="sAmount"
                     autoFocus
                     value={sAmount}
                     onChange={handleAmountInputChange}
                   />
-
                   <div className='button__wrapper d-flex justify-content-center align-items-center m-3'>
-                    <button className="me-2 btn btn-primary btn-lg" onClick={decrementCount}>
+                    <button className="me-2 btn btn-primary" onClick={() => { decrementCount('sAmount') }}>
                       <i className="fa fa-circle-minus"></i>
                     </button>
-                    <button className="ms-2 btn btn-primary btn-lg" onClick={incrementCount}>
+                    <button className="me-2 ms-2 btn btn-primary" onClick={() => { resetCount('sAmount') }}>
+                      <i className="fa fa-arrow-rotate-left"></i>
+                    </button>
+                    <button className="ms-2 btn btn-primary" onClick={() => { incrementCount('sAmount') }}>
                       <i className="fa fa-circle-plus"></i>
                     </button>
                   </div>
-                  <button className="btn btn-primary btn-bright-sm " onClick={resetCount}>
-                    <i className="fa fa-arrow-rotate-left"></i> Reset
-                  </button>
-                  <button onClick={saveSitDown} className="btn btn-success btn-bright-sm mt-4" title="Sit down control">
+                  <div className='mb-2'>
+                    <h2 className='fw-bold h4'>Fail Credits</h2>
+                  </div>
+                  <input
+                    className="border rounded-pill border-primary primary-back text-light text-center fw-bold h3 border-bright"
+                    type="number"
+                    name="sFailCredit"
+                    value={sFailCredit}
+                    onChange={handleAmountInputChange}
+                  />
+
+                  <div className='button__wrapper d-flex justify-content-center align-items-center m-3'>
+                    <button className="me-2 btn btn-primary" onClick={() => { decrementCount('sFailCredit') }}>
+                      <i className="fa fa-circle-minus"></i>
+                    </button>
+                    <button className="me-2 ms-2 btn btn-primary" onClick={() => { resetCount('sFailCredit') }}>
+                      <i className="fa fa-arrow-rotate-left"></i>
+                    </button>
+                    <button className="ms-2 btn btn-primary" onClick={() => { incrementCount('sFailCredit') }}>
+                      <i className="fa fa-circle-plus"></i>
+                    </button>
+                  </div>
+                  <button onClick={saveSitDown} className="btn btn-success btn-bright-sm mt-2" title="Sit down control">
                     <i className="fas fa-floppy-disk"></i> Save
                   </button>
                 </div>
-                <OfficeCard office={officeData} />
+                <div className='mt-4'>
+                  <OfficeCard office={officeData} />
+                </div>
               </div>
-
-              <div className='d-flex flex-column justify-content-center align-items-center mt-5 mb-3 w-100' data-aos="fade-up" data-aos-duration="1000">
+              <div className='d-flex flex-column justify-content-center align-items-center mt-3 mb-3 w-100' data-aos="fade-up" data-aos-duration="1000">
                 <h2 className='text-dark'>Simple Sit Down Register</h2>
                 {sitDowns.length > 0 ?
                   <PaginatedSitDownsSimplesItems itemsPerPage={10} items={sitDowns} loading={loading} />
@@ -138,7 +159,6 @@ export const OfficeManagerScreen = () => {
           </div>
           :
           <div className='container text-center' data-aos="fade-up" data-aos-duration="1000">
-            {/* <LoadingSpinner /> */}
             <div className='d-flex flex-column justify-content-evenly align-items-center'>
               <Link to="/sitdowndetail" className='mb-2 mt-2 text-decoration-none'>
                 <button className="btn btn-primary btn-lg btn-secondary-back" title="Add sit down detail">

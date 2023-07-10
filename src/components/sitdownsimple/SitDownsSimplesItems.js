@@ -7,10 +7,10 @@ export const SitDownsSimplesItems = ({ sitDowns, loading }) => {
     return <h2>Loading...</h2>
   }
   return (
-    <div className='container-fluid'>
+    <div className='container-fluid table-responsive mb-2'>
       
       {sitDowns && <table className={isMobile ? "d-block overflow-scroll table table-sm table-bordered table-striped" : "table table-bordered table-striped table-hover"}>
-        <thead className='primary-back text-light'>
+        <thead className='primary-back text-light align-middle'>
           <tr>
             <th className="text-center" scope="col">User</th>
             <th className="text-center" scope="col">Office</th>

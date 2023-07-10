@@ -13,13 +13,14 @@ export const UsersItems = ({ users, loading }) => {
   const handleEdit = async (uid) => {
     const body = await fetchConToken(`auth/${uid}`);
     dispatch(startSetUser(body.user));
+    localStorage.setItem('userId', uid);
     navigate('/edituser');
   };
   return (
-    <div className='container-fluid'>
+    <div className='container-fluid table-responsive mb-2'>
 
       {users && <table className={isMobile ? "d-block overflow-scroll table table-sm table-bordered table-striped" : "table table-bordered table-striped table-hover"}>
-        <thead className='primary-back text-light'>
+        <thead className='primary-back text-light align-middle'>
           <tr>
             <th className="text-center" scope="col">Status</th>
             <th className="text-center" scope="col">Firstname</th>

@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 import { fetchConToken } from "../../helpers/fetch";
 import Select from 'react-select';
 import useSWR from "swr";
+import { LoadingSpinner } from "../ui/LoadingSpinner";
+import { isMobile } from "react-device-detect";
 
 const colourStyles = {
   control: styles => ({ ...styles, width: '100%' }),
@@ -191,75 +193,130 @@ export const SitDownsScreen = () => {
     navigate('/');
   };
   return (
-    <div className="text-center d-flex flex-column justify-content-center align-items-center w-100">
-      <div className="d-flex flex-row justify-content-center align-items-center w-100 p-3">
-        <div className={isOfficeManager ? "w-50 dropend d-flex" : "w-100 dropend d-flex"}>
-          <button className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-            <i className="fa fa-filter"></i>
-          </button>
-          <div className="dropdown-menu w-80 p-2" aria-labelledby="dropdownMenuClickableInside">
-            <form className='form-group d-flex justify-content-center align-items-center w-100' onSubmit={handleSearch}>
-              <input className='form-control me-2 text-center' title='Search by name' placeholder='Search a sit down by name' type="text" name="cSearch" value={cSearch} onChange={handleSearchInputChange} />
-              <button type="submit" className='btn btn-primary'><i className="fas fa-search"></i></button>
-            </form>
-            <div className="mt-2 row">
-              <div className="col">
-                <label>Closer</label>
-                <Select styles={colourStyles} options={closers} value={closer} onChange={handleCloser} />
+    <>
+      <div className="text-center d-flex flex-column justify-content-center align-items-center w-100" data-aos="fade-up" data-aos-duration="1000">
+        {
+          isMobile
+            ?
+            <div className="d-flex flex-column justify-content-center align-items-center">
+              {isOfficeManager &&
+                < Link to="/addsitdowndetail" className='d-flex m-2 text-decoration-none'>
+                  <button className="btn btn-success" title="Add sit down detail">
+                    <i className="fas fa-plus-circle"></i> Add
+                  </button>
+                </Link>
+              }
+              <div>
+                <button className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                  <i className="fa fa-filter"></i>
+                </button>
+                <div className="dropdown-menu w-100 p-2" aria-labelledby="dropdownMenuClickableInside">
+                  <form className='form-group d-flex justify-content-center align-items-center w-100' onSubmit={handleSearch}>
+                    <input className='form-control me-2 text-center' title='Search by name' placeholder='Search a sit down by name' type="text" name="cSearch" value={cSearch} onChange={handleSearchInputChange} />
+                    <button type="submit" className='btn btn-primary'><i className="fas fa-search"></i></button>
+                  </form>
+                  <div className="mt-2 row">
+                    <div className="col">
+                      <label>Closer</label>
+                      <Select styles={colourStyles} options={closers} value={closer} onChange={handleCloser} />
+                    </div>
+                    <div className="col">
+                      <label>Canvasser</label>
+                      <Select styles={colourStyles} options={canvassers} value={canvasser} onChange={handleCanvasser} />
+                    </div>
+                    <div className="col">
+                      <label>Status</label>
+                      <Select styles={colourStyles} options={statuses} value={status} onChange={handleStatus} />
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="col">
-                <label>Canvasser</label>
-                <Select styles={colourStyles} options={canvassers} value={canvasser} onChange={handleCanvasser} />
-              </div>
-              <div className="col">
-                <label>Status</label>
-                <Select styles={colourStyles} options={statuses} value={status} onChange={handleStatus} />
-              </div>
+
             </div>
-          </div>
-        </div>
-        {/* <div className="w-50">
-          <div>
-            <form className='form-group d-flex justify-content-center align-items-center w-100' onSubmit={handleSearch}>
-              <input className='form-control me-2 text-center' title='Search by name' placeholder='Search a sit down by name' type="text" name="cSearch" value={cSearch} onChange={handleSearchInputChange} />
-              <button type="submit" className='btn btn-primary'><i className="fas fa-search"></i></button>
-            </form>
-            <div className="mt-2 row">
-              <div className="col">
-                <label>Closer</label>
-                <Select styles={colourStyles} options={closers} value={closer} onChange={handleCloser} />
+            :
+            <div className="d-flex flex-row justify-content-center align-items-center w-100 p-3">
+              <div className="w-100 dropend d-flex">
+                <button className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                  <i className="fa fa-filter"></i>
+                </button>
+                <div className="dropdown-menu w-80 p-2" aria-labelledby="dropdownMenuClickableInside">
+                  <form className='form-group d-flex justify-content-center align-items-center w-100' onSubmit={handleSearch}>
+                    <input className='form-control me-2 text-center' title='Search by name' placeholder='Search a sit down by name' type="text" name="cSearch" value={cSearch} onChange={handleSearchInputChange} />
+                    <button type="submit" className='btn btn-primary'><i className="fas fa-search"></i></button>
+                  </form>
+                  <div className="mt-2 row">
+                    <div className="col">
+                      <label>Closer</label>
+                      <Select styles={colourStyles} options={closers} value={closer} onChange={handleCloser} />
+                    </div>
+                    <div className="col">
+                      <label>Canvasser</label>
+                      <Select styles={colourStyles} options={canvassers} value={canvasser} onChange={handleCanvasser} />
+                    </div>
+                    <div className="col">
+                      <label>Status</label>
+                      <Select styles={colourStyles} options={statuses} value={status} onChange={handleStatus} />
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="col">
-                <label>Canvasser</label>
-                <Select styles={colourStyles} options={canvassers} value={canvasser} onChange={handleCanvasser} />
-              </div>
-              <div className="col">
-                <label>Status</label>
-                <Select styles={colourStyles} options={statuses} value={status} onChange={handleStatus} />
-              </div>
+              {isOfficeManager &&
+                < Link to="/addsitdowndetail" className='d-flex justify-content-end m-2 w-50 text-decoration-none'>
+                  <button className="btn btn-success" title="Add sit down detail">
+                    <i className="fas fa-plus-circle"></i> Add
+                  </button>
+                </Link>
+              }
             </div>
-          </div>
-        </div> */}
-        {isOfficeManager &&
-          < Link to="/addsitdowndetail" className='d-flex justify-content-end m-2 w-50 text-decoration-none'>
-            <button className="btn btn-success" title="Add sit down detail">
-              <i className="fas fa-plus-circle"></i> Add
-            </button>
-          </Link>
         }
-      </div>
-      <h1 className="text-dark mb-4 mt-2">Sit Down Detail</h1>
-      {
-        sitDowns.length > 0 ?
-          <PaginatedSitDownsItems itemsPerPage={10} items={sitDowns} loading={loading} />
-          :
-          <span className="h3">No sit downs detail</span>
-      }
-      <div className="form-group d-flex flex-row justify-content-center">
-        <button className="btn btn-light mt-2 mb-2 btn-bright d-flex flex-row justify-content-center align-items-center" onClick={handleReturn}>
-          <i className="fa fa-arrow-rotate-left me-1"></i> Return
-        </button>
-      </div>
-    </div >
+        {/* <div className="d-flex flex-row justify-content-center align-items-center w-100 p-3">
+            <div className={isOfficeManager ? "w-50 dropend d-flex" : "w-100 dropend d-flex"}>
+              <button className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                <i className="fa fa-filter"></i>
+              </button>
+              <div className="dropdown-menu w-80 p-2" aria-labelledby="dropdownMenuClickableInside">
+                <form className='form-group d-flex justify-content-center align-items-center w-100' onSubmit={handleSearch}>
+                  <input className='form-control me-2 text-center' title='Search by name' placeholder='Search a sit down by name' type="text" name="cSearch" value={cSearch} onChange={handleSearchInputChange} />
+                  <button type="submit" className='btn btn-primary'><i className="fas fa-search"></i></button>
+                </form>
+                <div className="mt-2 row">
+                  <div className="col">
+                    <label>Closer</label>
+                    <Select styles={colourStyles} options={closers} value={closer} onChange={handleCloser} />
+                  </div>
+                  <div className="col">
+                    <label>Canvasser</label>
+                    <Select styles={colourStyles} options={canvassers} value={canvasser} onChange={handleCanvasser} />
+                  </div>
+                  <div className="col">
+                    <label>Status</label>
+                    <Select styles={colourStyles} options={statuses} value={status} onChange={handleStatus} />
+                  </div>
+                </div>
+              </div>
+            </div> */}
+        {/* {isOfficeManager &&
+            < Link to="/addsitdowndetail" className='d-flex justify-content-end m-2 w-50 text-decoration-none'>
+              <button className="btn btn-success" title="Add sit down detail">
+                <i className="fas fa-plus-circle"></i> Add
+              </button>
+            </Link>
+          }
+        </div> */}
+        <h1 className="text-dark mb-4 mt-2">Sit Down Detail</h1>
+        {
+          sitDowns.length > 0 ?
+            <PaginatedSitDownsItems itemsPerPage={10} items={sitDowns} loading={loading} />
+            :
+            <span className="h3">No sit downs detail</span>
+        }
+        <div className="form-group d-flex flex-row justify-content-center">
+          <button className="btn btn-light mt-2 mb-2 btn-bright d-flex flex-row justify-content-center align-items-center" onClick={handleReturn}>
+            <i className="fa fa-arrow-rotate-left me-1"></i> Return
+          </button>
+        </div>
+      </div >
+    </>
+
   );
 };

@@ -3,11 +3,20 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { startUpdateUser } from "../../actions/auth";
 import { useForm } from "../../hooks/useForm";
+import { isMobile } from "react-device-detect";
+// import { useForm } from "react-hook-form";
 
-export const ProfileGeneralScreen = () => {
-  const { userAsoc } = useSelector((state) => state.auth);
+export const ProfileGeneralScreen = ({ user }) => {
+  const { userAsoc, uid } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  // const { register, handleSubmit, watch, formState: { errors } } = useForm({
+  //   defaultValues: {
+  //     name: user && user.name,
+  //     lastname: user && user.lastname,
+  //     email: user && user.email,
+  //   }
+  // });
   const [formUsuarioValues, handleUsuarioInputChange] = useForm({
     rName: userAsoc && userAsoc.name,
     rLastname: userAsoc && userAsoc.lastname,
@@ -32,9 +41,9 @@ export const ProfileGeneralScreen = () => {
   };
   return (
     <>
-      {userAsoc ?
+      {user ?
         <div className="d-flex flex-column justify-content-center align-items-center mb-5" data-aos="fade-up" data-aos-duration="1000">
-          <form onSubmit={handleUpdate} className="w-50">
+          <form onSubmit={handleUpdate} className={isMobile ? "w-95" : "w-50"}>
             <h2 className="mb-1 text-dark text-center">General</h2>
             <hr className="bg-dark" />
             <div className="form-group">
@@ -67,8 +76,8 @@ export const ProfileGeneralScreen = () => {
                 placeholder="Email"
                 name="rEmail"
                 value={rEmail}
-                autoComplete="new-password"
                 onChange={handleUsuarioInputChange}
+                autoComplete="new-password"
               />
             </div>
             <div className="form-group d-flex justify-content-center mb-1">

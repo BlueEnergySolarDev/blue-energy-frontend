@@ -4,7 +4,7 @@ import 'react-tabs/style/react-tabs.css';
 import { ProfileGeneralScreen } from "./ProfileGeneralScreen";
 import { ChangePasswordScreen } from "./ChangePasswordScreen";
 
-export const ProfileScreen = () => {
+export const ProfileScreen = ({ user }) => {
   return (
     <div className="container">
       <h1 className="mb-2 text-dark text-center">PROFILE</h1>
@@ -15,7 +15,9 @@ export const ProfileScreen = () => {
         </TabList>
 
         <TabPanel>
-          <ProfileGeneralScreen />
+          {user &&
+            <ProfileGeneralScreen user={user} />
+          }
         </TabPanel>
         <TabPanel>
           <ChangePasswordScreen />

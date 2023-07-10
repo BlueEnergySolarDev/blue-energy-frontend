@@ -1,27 +1,27 @@
 @font-face {
   font-family: "Georgina";
-  src: url("../../fonts/GeorginaDemo-Regular.woff2");
+  src: url("https://res.cloudinary.com/drholseqp/raw/upload/v1689021646/fonts/GeorginaDemo-Regular_w6eu7o.woff2");
 }
 
 @font-face {
   font-family: "Mollen-Bold";
-  src: url("../../fonts/Mollen-BoldPersonalUse.woff2");
+  src: url("https://res.cloudinary.com/drholseqp/raw/upload/v1689021646/fonts/Mollen-BoldPersonalUse_vqewvk.woff2");
 }
 
 @font-face {
   font-family: "Mollen-Regular";
-  src: url("../../fonts/Mollen-RegularPersonalUse.woff2");
+  src: url("https://res.cloudinary.com/drholseqp/raw/upload/v1689021646/fonts/Mollen-RegularPersonalUse_oiz3ce.woff2");
 }
 
 @font-face {
   font-family: "Qanelas-Medium";
-  src: url("../../fonts/QanelasSoftDEMO-Medium.woff2");
+  src: url("https://res.cloudinary.com/drholseqp/raw/upload/v1689021646/fonts/QanelasSoftDEMO-Medium_n3roxq.woff2");
 }
 
 
 @font-face {
   font-family: "Qanelas-Light";
-  src: url("../../fonts/QanelasSoftDEMO-UltraLight.woff2");
+  src: url("https://res.cloudinary.com/drholseqp/raw/upload/v1689021647/fonts/QanelasSoftDEMO-UltraLight_jjhvar.woff2");
 }
 
 * {
@@ -82,11 +82,11 @@ main {
   background-color: $secondary;
 }
 
-.btn-primary-back{
+.btn-primary-back {
   background: linear-gradient($primary, $terciary, $secondary );
 }
 
-.btn-secondary-back{
+.btn-secondary-back {
   // background: linear-gradient(to bottom right, $secondary, $primary);
   background: linear-gradient($secondary, $terciary, $primary);
   // background:  $secondary;
@@ -115,15 +115,15 @@ main {
 
 hr {
   border: 0;
-  clear:both;
-  display:block;
-  width: 96%;               
-  background-color:white;
+  clear: both;
+  display: block;
+  width: 96%;
+  background-color: white;
   opacity: .75;
   height: 1px;
 }
 
-.center{
+.center {
   position: absolute;
   top: 50%;
   left: 50%;

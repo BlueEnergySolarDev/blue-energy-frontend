@@ -16,7 +16,7 @@ export const Navbar = () => {
     if (role) {
       setIsAuthed(true);
     }
-  }, [setIsAuthed, role]);
+  }, [role]);
   const handleLogout = () => {
     googleLogout();
     dispatch(startLogout());
@@ -26,7 +26,7 @@ export const Navbar = () => {
     <>
       {isMobile ?
         <div className="navbar navbar-dark secondary-back navbar-expand-lg d-flex justify-content-between align-items-center mb-1">
-          <Link reloadDocument className="text-decoration-none" to="/"><span role="button" className="navbar-brand ms-4 text-decoration-none"><img style={{ objectFit: "contain" }} width={150} height={50} src={logo} alt="Blue Energy Solar App" /></span></Link>
+          <Link className="text-decoration-none" to="/"><span role="button" className="navbar-brand ms-4 text-decoration-none"><img style={{ objectFit: "contain" }} width={150} height={50} src={logo} alt="Blue Energy Solar App" /></span></Link>
           <button type="button" className="navbar-toggler me-3" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span className="navbar-toggler-icon"></span>
           </button>
@@ -55,7 +55,7 @@ export const Navbar = () => {
         </div>
         :
         <div className="navbar navbar-dark secondary-back navbar-expand-lg d-flex justify-content-between align-items-center mb-1">
-          <Link reloadDocument className="text-decoration-none" to="/"><span role="button" className="navbar-brand ms-4 text-decoration-none"><img style={{ objectFit: "contain" }} width={150} height={50} src={logo} alt="Blue Energy Solar App" /></span></Link>
+          <Link className="text-decoration-none" to="/"><span role="button" className="navbar-brand ms-4 text-decoration-none"><img style={{ objectFit: "contain" }} width={150} height={50} src={logo} alt="Blue Energy Solar App" /></span></Link>
           <button type="button" className="navbar-toggler me-3" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span className="navbar-toggler-icon"></span>
           </button>

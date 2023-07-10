@@ -1,6 +1,6 @@
 // FONT
 // =====================================
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&display=swap");
+// @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&display=swap");
 
 .body__loading{
   background: linear-gradient($secondary, $primary);
@@ -16,7 +16,8 @@
 // =====================================
 h1 {
   color:white;
-  font-family: "Open Sans", -apple-system, "Segoe UI", sans-serif;
+  font-family: "Georgina", -apple-system, "Segoe UI", sans-serif !important;
+  // font-family: "Open Sans", -apple-system, "Segoe UI", sans-serif;
   font-size: 50px;
   font-weight: bold;
   //color: hsl(0, 0%, 13%);

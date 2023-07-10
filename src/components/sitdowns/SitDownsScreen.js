@@ -16,18 +16,12 @@ const colourStyles = {
 export const SitDownsScreen = () => {
   const navigate = useNavigate();
   const { role, uid, office } = useSelector((state) => state.auth);
-  const [isOfficeManager, setIsOfficeManager] = useState(false);
   const [sitDowns, setSitDowns] = useState([]);
   const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    if (role === 'office_manager') {
-      setIsOfficeManager(true);
-    }
-  }, [role]);
 
   useEffect(() => {
     setLoading(true);
-    if (isOfficeManager) {
+    if (role === 'office_manager') {
       const getSitDowns = async () => {
         const body = await fetchConToken('sitdowns/id/' + uid);
         setSitDowns(body.sitDowns);
@@ -44,7 +38,7 @@ export const SitDownsScreen = () => {
       getSitDowns();
       // url = `sitdowns`;
     }
-  }, [])
+  }, [role])
 
 
   // let url = "";
@@ -194,129 +188,99 @@ export const SitDownsScreen = () => {
   };
   return (
     <>
-      <div className="text-center d-flex flex-column justify-content-center align-items-center w-100" data-aos="fade-up" data-aos-duration="1000">
-        {
-          isMobile
-            ?
-            <div className="d-flex flex-column justify-content-center align-items-center">
-              {isOfficeManager &&
-                < Link to="/addsitdowndetail" className='d-flex m-2 text-decoration-none'>
-                  <button className="btn btn-success" title="Add sit down detail">
-                    <i className="fas fa-plus-circle"></i> Add
-                  </button>
-                </Link>
-              }
-              <div>
-                <button className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                  <i className="fa fa-filter"></i>
-                </button>
-                <div className="dropdown-menu w-100 p-2" aria-labelledby="dropdownMenuClickableInside">
-                  <form className='form-group d-flex justify-content-center align-items-center w-100' onSubmit={handleSearch}>
-                    <input className='form-control me-2 text-center' title='Search by name' placeholder='Search a sit down by name' type="text" name="cSearch" value={cSearch} onChange={handleSearchInputChange} />
-                    <button type="submit" className='btn btn-primary'><i className="fas fa-search"></i></button>
-                  </form>
-                  <div className="mt-2 row">
-                    <div className="col">
-                      <label>Closer</label>
-                      <Select styles={colourStyles} options={closers} value={closer} onChange={handleCloser} />
-                    </div>
-                    <div className="col">
-                      <label>Canvasser</label>
-                      <Select styles={colourStyles} options={canvassers} value={canvasser} onChange={handleCanvasser} />
-                    </div>
-                    <div className="col">
-                      <label>Status</label>
-                      <Select styles={colourStyles} options={statuses} value={status} onChange={handleStatus} />
+      {
+        loading ?
+          <LoadingSpinner />
+          :
+          <div className="text-center d-flex flex-column justify-content-center align-items-center w-100" data-aos="fade-up" data-aos-duration="1000">
+            {
+              isMobile
+                ?
+                <div className="d-flex flex-column justify-content-center align-items-center">
+                  {role === 'office_manager' &&
+                    < Link to="/addsitdowndetail" className='d-flex m-2 text-decoration-none'>
+                      <button className="btn btn-success" title="Add sit down detail">
+                        <i className="fas fa-plus-circle"></i> Add
+                      </button>
+                    </Link>
+                  }
+                  <div>
+                    <button className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                      <i className="fa fa-filter"></i>
+                    </button>
+                    <div className="dropdown-menu w-100 p-2" aria-labelledby="dropdownMenuClickableInside">
+                      <form className='form-group d-flex justify-content-center align-items-center w-100' onSubmit={handleSearch}>
+                        <input className='form-control me-2 text-center' title='Search by name' placeholder='Search a sit down by name' type="text" name="cSearch" value={cSearch} onChange={handleSearchInputChange} />
+                        <button type="submit" className='btn btn-primary'><i className="fas fa-search"></i></button>
+                      </form>
+                      <div className="mt-2 row">
+                        <div className="col">
+                          <label>Closer</label>
+                          <Select styles={colourStyles} options={closers} value={closer} onChange={handleCloser} />
+                        </div>
+                        <div className="col">
+                          <label>Canvasser</label>
+                          <Select styles={colourStyles} options={canvassers} value={canvasser} onChange={handleCanvasser} />
+                        </div>
+                        <div className="col">
+                          <label>Status</label>
+                          <Select styles={colourStyles} options={statuses} value={status} onChange={handleStatus} />
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
 
-            </div>
-            :
-            <div className="d-flex flex-row justify-content-center align-items-center w-100 p-3">
-              <div className="w-100 dropend d-flex">
-                <button className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                  <i className="fa fa-filter"></i>
-                </button>
-                <div className="dropdown-menu w-80 p-2" aria-labelledby="dropdownMenuClickableInside">
-                  <form className='form-group d-flex justify-content-center align-items-center w-100' onSubmit={handleSearch}>
-                    <input className='form-control me-2 text-center' title='Search by name' placeholder='Search a sit down by name' type="text" name="cSearch" value={cSearch} onChange={handleSearchInputChange} />
-                    <button type="submit" className='btn btn-primary'><i className="fas fa-search"></i></button>
-                  </form>
-                  <div className="mt-2 row">
-                    <div className="col">
-                      <label>Closer</label>
-                      <Select styles={colourStyles} options={closers} value={closer} onChange={handleCloser} />
-                    </div>
-                    <div className="col">
-                      <label>Canvasser</label>
-                      <Select styles={colourStyles} options={canvassers} value={canvasser} onChange={handleCanvasser} />
-                    </div>
-                    <div className="col">
-                      <label>Status</label>
-                      <Select styles={colourStyles} options={statuses} value={status} onChange={handleStatus} />
-                    </div>
-                  </div>
                 </div>
-              </div>
-              {isOfficeManager &&
-                < Link to="/addsitdowndetail" className='d-flex justify-content-end m-2 w-50 text-decoration-none'>
-                  <button className="btn btn-success" title="Add sit down detail">
-                    <i className="fas fa-plus-circle"></i> Add
-                  </button>
-                </Link>
-              }
-            </div>
-        }
-        {/* <div className="d-flex flex-row justify-content-center align-items-center w-100 p-3">
-            <div className={isOfficeManager ? "w-50 dropend d-flex" : "w-100 dropend d-flex"}>
-              <button className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                <i className="fa fa-filter"></i>
-              </button>
-              <div className="dropdown-menu w-80 p-2" aria-labelledby="dropdownMenuClickableInside">
-                <form className='form-group d-flex justify-content-center align-items-center w-100' onSubmit={handleSearch}>
-                  <input className='form-control me-2 text-center' title='Search by name' placeholder='Search a sit down by name' type="text" name="cSearch" value={cSearch} onChange={handleSearchInputChange} />
-                  <button type="submit" className='btn btn-primary'><i className="fas fa-search"></i></button>
-                </form>
-                <div className="mt-2 row">
-                  <div className="col">
-                    <label>Closer</label>
-                    <Select styles={colourStyles} options={closers} value={closer} onChange={handleCloser} />
+                :
+                <div className="d-flex flex-row justify-content-center align-items-center w-100 p-3">
+                  <div className="w-100 dropend d-flex">
+                    <button className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                      <i className="fa fa-filter"></i>
+                    </button>
+                    <div className="dropdown-menu w-80 p-2" aria-labelledby="dropdownMenuClickableInside">
+                      <form className='form-group d-flex justify-content-center align-items-center w-100' onSubmit={handleSearch}>
+                        <input className='form-control me-2 text-center' title='Search by name' placeholder='Search a sit down by name' type="text" name="cSearch" value={cSearch} onChange={handleSearchInputChange} />
+                        <button type="submit" className='btn btn-primary'><i className="fas fa-search"></i></button>
+                      </form>
+                      <div className="mt-2 row">
+                        <div className="col">
+                          <label>Closer</label>
+                          <Select styles={colourStyles} options={closers} value={closer} onChange={handleCloser} />
+                        </div>
+                        <div className="col">
+                          <label>Canvasser</label>
+                          <Select styles={colourStyles} options={canvassers} value={canvasser} onChange={handleCanvasser} />
+                        </div>
+                        <div className="col">
+                          <label>Status</label>
+                          <Select styles={colourStyles} options={statuses} value={status} onChange={handleStatus} />
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="col">
-                    <label>Canvasser</label>
-                    <Select styles={colourStyles} options={canvassers} value={canvasser} onChange={handleCanvasser} />
-                  </div>
-                  <div className="col">
-                    <label>Status</label>
-                    <Select styles={colourStyles} options={statuses} value={status} onChange={handleStatus} />
-                  </div>
+                  {role === 'office_manager' &&
+                    < Link to="/addsitdowndetail" className='d-flex justify-content-end m-2 w-50 text-decoration-none'>
+                      <button className="btn btn-success" title="Add sit down detail">
+                        <i className="fas fa-plus-circle"></i> Add
+                      </button>
+                    </Link>
+                  }
                 </div>
-              </div>
-            </div> */}
-        {/* {isOfficeManager &&
-            < Link to="/addsitdowndetail" className='d-flex justify-content-end m-2 w-50 text-decoration-none'>
-              <button className="btn btn-success" title="Add sit down detail">
-                <i className="fas fa-plus-circle"></i> Add
+            }
+            <h1 className="text-dark mb-4 mt-2">Sit Down Detail</h1>
+            {
+              sitDowns.length > 0 ?
+                <PaginatedSitDownsItems itemsPerPage={10} items={sitDowns} loading={loading} />
+                :
+                <span className="h3">No sit downs detail</span>
+            }
+            <div className="form-group d-flex flex-row justify-content-center">
+              <button className="btn btn-light mt-2 mb-2 btn-bright d-flex flex-row justify-content-center align-items-center" onClick={handleReturn}>
+                <i className="fa fa-arrow-rotate-left me-1"></i> Return
               </button>
-            </Link>
-          }
-        </div> */}
-        <h1 className="text-dark mb-4 mt-2">Sit Down Detail</h1>
-        {
-          sitDowns.length > 0 ?
-            <PaginatedSitDownsItems itemsPerPage={10} items={sitDowns} loading={loading} />
-            :
-            <span className="h3">No sit downs detail</span>
-        }
-        <div className="form-group d-flex flex-row justify-content-center">
-          <button className="btn btn-light mt-2 mb-2 btn-bright d-flex flex-row justify-content-center align-items-center" onClick={handleReturn}>
-            <i className="fa fa-arrow-rotate-left me-1"></i> Return
-          </button>
-        </div>
-      </div >
+            </div>
+          </div >
+      }
     </>
-
   );
 };

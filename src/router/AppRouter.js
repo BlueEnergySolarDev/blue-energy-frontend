@@ -21,21 +21,19 @@ import { EditSitDown } from "../components/sitdowns/EditSitDown";
 export const AppRouter = () => {
   const dispatch = useDispatch();
   const { checking, uid, role, userAsoc } = useSelector((state) => state.auth);
-  // const { sitDownSelected } = useSelector((state) => state.sitDown);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isOfficeManager, setIsOfficeManager] = useState(false);
-  useEffect(() => {
-    if (role === 'admin') {
-      setIsAdmin(true);
-    }
-    if (role === 'office_manager') {
-      setIsOfficeManager(true);
-    }
-  }, [role]);
 
   useEffect(() => {
     dispatch(startChecking());
-  }, [dispatch]);
+    if (role === 'admin') {
+      setIsAdmin(true);
+      setIsOfficeManager(false);
+    } else {
+      setIsOfficeManager(true);
+      setIsAdmin(false);
+    }
+  }, [dispatch, role]);
   if (checking) {
     return <Loading checking={checking} />;
   }
@@ -44,20 +42,20 @@ export const AppRouter = () => {
     <Router>
       <Routes>
         <Route element={<PrivateRoute isAuthenticated={!!uid} />}>
-          <Route element={<Layout />}>
-            <Route path="/" element={isAdmin ? <AdminScreen /> : <OfficeManagerScreen />} />
+          <Route path="/" element={<Layout />}>
+            <Route index element={isOfficeManager ? <OfficeManagerScreen /> : <AdminScreen />} />
             <Route path="/addsitdowndetail" element={isOfficeManager && <AddSitDown />} />
-            <Route path="/editsitdowndetail" element={isOfficeManager &&  <EditSitDown />} />
+            <Route path="/editsitdowndetail" element={isOfficeManager && <EditSitDown />} />
             <Route path="/edituser" element={isAdmin && <EditUser />} />
             <Route path="/users" element={isAdmin && <UsersScreen />} />
             <Route path="/sitdowndetail" element={<SitDownsScreen />} />
-            <Route path="/profile" element={<ProfileScreen user={userAsoc}/>} />
+            <Route path="/profile" element={<ProfileScreen user={userAsoc} />} />
             <Route path="*" element={<NotFoundScreen />} />
           </Route>
         </Route>
         <Route element={<PublicRoute isAuthenticated={!!uid} />}>
-          <Route exact index path="/login" element={<LoginScreen />} />
-          <Route exact path="/register" element={<RegisterScreen />} />
+          <Route index path="/login" element={<LoginScreen />} />
+          <Route path="/register" element={<RegisterScreen />} />
         </Route>
       </Routes>
     </Router>

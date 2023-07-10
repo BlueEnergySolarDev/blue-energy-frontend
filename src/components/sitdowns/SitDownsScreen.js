@@ -183,6 +183,16 @@ export const SitDownsScreen = () => {
     }
   };
 
+  const removeFilter = (e) => {
+    setValues({
+      ...values,
+      'cSearch': "",
+    });
+    setCloser(null);
+    setStatus(null);
+    setCanvasser(null);
+  };
+
   const handleReturn = (e) => {
     navigate('/');
   };
@@ -227,9 +237,11 @@ export const SitDownsScreen = () => {
                           <Select styles={colourStyles} options={statuses} value={status} onChange={handleStatus} />
                         </div>
                       </div>
+                      <div className="mt-2 d-grid gap-2">
+                        <button type="submit" className='btn btn-danger' onClick={removeFilter}><i className="fas fa-trash"></i> Remove filter</button>
+                      </div>
                     </div>
                   </div>
-
                 </div>
                 :
                 <div className="d-flex flex-row justify-content-center align-items-center w-100 p-3">
@@ -255,6 +267,9 @@ export const SitDownsScreen = () => {
                           <label>Status</label>
                           <Select styles={colourStyles} options={statuses} value={status} onChange={handleStatus} />
                         </div>
+                      </div>
+                      <div className="mt-2 d-grid gap-2">
+                        <button type="submit" className='btn btn-danger' onClick={removeFilter}><i className="fas fa-trash"></i> Remove filter</button>
                       </div>
                     </div>
                   </div>

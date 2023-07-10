@@ -24,7 +24,7 @@ export const SitDownsSimplesItems = ({ sitDowns, loading }) => {
             return (
               <tbody key={sitDown.id}>
                 <tr>
-                  <td className="text-center">{sitDown.user.name} {sitDown.user.lastname}</td>
+                  <td className="text-center">{sitDown.user?.name} {sitDown.user?.lastname}</td>
                   <td className="text-center">{sitDown.office}</td>
                   <td className="text-center">{sitDown.amount}</td>
                   <td className="text-center">{sitDown.fail_credit}</td>

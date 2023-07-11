@@ -19,8 +19,8 @@ export const UsersItems = ({ users, loading }) => {
   return (
     <div className='container-fluid table-responsive mb-2'>
 
-      {users && <table className={isMobile ? "d-block overflow-scroll table table-sm table-bordered table-striped" : "table table-bordered table-striped table-hover"}>
-        <thead className='primary-back text-light align-middle'>
+      {users && <table className={isMobile ? "d-block overflow-scroll table table-sm table-bordered table-striped rounded rounded-3 overflow-hidden" : "table table-bordered table-striped table-hover rounded rounded-3 overflow-hidden"}>
+        <thead className='secondary-back text-light align-middle'>
           <tr>
             <th className="text-center" scope="col">Status</th>
             <th className="text-center" scope="col">Firstname</th>

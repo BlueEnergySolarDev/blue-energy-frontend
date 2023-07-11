@@ -1,11 +1,7 @@
 /*   color variables */
-$clr-negative: #ff1744;
-$clr-positive: #2abf77;
-$clr-gray100: #f0f7f8;
+// $clr-negative: #ff1744;
+// $clr-positive: #2abf77;
 $clr-gray200: #cfd8dc;
-$clr-gray300: #a7b7be;
-$clr-gray400: #6b7e86;
-$clr-gray500: #425a65;
 
 .button__wrapper {
   display: flex;
@@ -13,7 +9,7 @@ $clr-gray500: #425a65;
 
   &>* {
     border: none;
-    background-color: white;
+    background-color: $white;
     box-shadow: 0px 0px 10px $clr-gray200;
     font-weight: bold;
     font-size: 1rem;
@@ -39,10 +35,10 @@ $clr-gray500: #425a65;
   }
 }
 
-.positive {
-  color: $clr-positive;
-  animation: pulse 500ms ease-in-out;
-}
+// .positive {
+//   color: $clr-positive;
+//   animation: pulse 500ms ease-in-out;
+// }
 
 @keyframes pulse {
 
@@ -57,7 +53,7 @@ $clr-gray500: #425a65;
 }
 
 .border-bright {
-  border-color: white;
+  border-color: $white;
 }
 
 .border-bright:focus {

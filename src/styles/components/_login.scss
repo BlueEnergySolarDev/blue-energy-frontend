@@ -3,7 +3,7 @@
 }
 .login-form-1{
   border-radius: 5px;
-  border: 2px solid #0062cc;
+  border: 2px solid $primary;
   box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
   padding: 2%;
   margin-left:4%;
@@ -11,28 +11,28 @@
 }
 .login-form-3{
   border-radius: 5px;
-  border: 2px solid #0062cc;
+  border: 2px solid $primary;
   box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
   padding: 2%;
   margin-left:25%;
 }
 .login-form-1 h3{
   text-align: center;
-  color: #333;
+  color: $black;
 }
 .login-form-3 h3{
   text-align: center;
-  color: #333;
+  color: $black;
 }
 .login-form-2{
   border-radius: 5px;
   box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
   padding: 4%;
-  background: linear-gradient($secondary, $primary);
+  background: $secondary;
 }
 .login-form-2 h3{
   text-align: center;
-  color: #fff;
+  color: $white;
 }
 .login-container form{
   padding: 7% 10% 7% 10%;
@@ -46,29 +46,29 @@
   cursor: pointer;
 }
 .login-form-1 .btnSubmit{
-  color: #fff;
-  background-color: #0062cc;
+  color: $white;
+  background-color: $primary;
 }
 .login-form-3 .btnSubmit{
-  color: #fff;
+  color: $white;
   background-color: #0062cc;
 }
 .login-form-2 .btnSubmit{
-  background-color: #fff;
-  color: #0062cc;
+  background-color: $white;
+  color: $primary;
 }
 .login-form-2 .ForgetPwd{
-  color: #fff;
+  color: $white;
   font-weight: 600;
   text-decoration: none;
 }
 .login-form-1 .ForgetPwd{
-  color: #0062cc;
+  color: $primary;
   font-weight: 600;
   text-decoration: none;
 }
 .login-form-3 .ForgetPwd{
-  color: #0062cc;
+  color: $primary;
   font-weight: 600;
   text-decoration: none;
 }

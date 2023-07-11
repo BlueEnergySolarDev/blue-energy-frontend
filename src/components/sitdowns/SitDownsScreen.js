@@ -99,13 +99,13 @@ export const SitDownsScreen = () => {
   if (closersApi?.closers) {
     const closersLen = closersApi?.closers.length;
     for (let i = 0; i < closersLen; i++) {
-      if (closersApi?.closers[i].office === office) {
+      // if (closersApi?.closers[i].office === office) {
         const closer = {
           value: closersApi?.closers[i].id,
           label: closersApi?.closers[i].firstName + ' ' + closersApi?.closers[i].lastName,
         }
         closers.push(closer);
-      }
+      // }
     }
   }
   const [closer, setCloser] = useState(null);
@@ -132,13 +132,13 @@ export const SitDownsScreen = () => {
   if (canvasserApi?.canvassers) {
     const canvassersLen = canvasserApi?.canvassers.length
     for (let i = 0; i < canvassersLen; i++) {
-      if (canvasserApi?.canvassers[i].office === office) {
+      // if (canvasserApi?.canvassers[i].office === office) {
         const canvasser = {
           value: canvasserApi?.canvassers[i].id,
           label: canvasserApi?.canvassers[i].firstName + ' ' + canvasserApi?.canvassers[i].lastName
         }
         canvassers.push(canvasser);
-      }
+      // }
     }
   }
   const [canvasser, setCanvasser] = useState(null);

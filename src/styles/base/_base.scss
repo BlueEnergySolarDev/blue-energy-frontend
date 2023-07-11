@@ -88,8 +88,8 @@ main {
 
 .btn-secondary-back {
   // background: linear-gradient(to bottom right, $secondary, $primary);
-  background: linear-gradient($secondary, $terciary, $primary);
-  // background:  $secondary;
+  // background: linear-gradient($secondary, $terciary, $primary);
+  background:  $primary;
 }
 
 .primary-color {
@@ -101,11 +101,11 @@ main {
 }
 
 .degrade-dl-back {
-  background: linear-gradient($primary, $secondary);
+  background: linear-gradient($primary, $terciary);
 }
 
 .degrade-ld-back {
-  background: linear-gradient(to bottom right, $secondary, $terciary, $primary);
+  background: $secondary
 }
 
 .block-scroll {
@@ -118,7 +118,7 @@ hr {
   clear: both;
   display: block;
   width: 96%;
-  background-color: white;
+  background-color: $white;
   opacity: .75;
   height: 1px;
 }

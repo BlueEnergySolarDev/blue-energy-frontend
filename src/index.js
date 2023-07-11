@@ -7,6 +7,7 @@ import "./styles/styles.scss";
 import AOS from 'aos';
 import "aos/dist/aos.css";
 import 'aos/dist/aos.js';
+// import './i18n';
 AOS.init();
 
 ReactDOM.render(

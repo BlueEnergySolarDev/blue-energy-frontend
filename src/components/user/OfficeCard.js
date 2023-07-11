@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 
 export const OfficeCard = ({ office }) => {
   return (
@@ -8,6 +9,8 @@ export const OfficeCard = ({ office }) => {
       <span className="ps-5 pe-5 border rounded-1 bg-light primary-color fw-bold h3">{office.sit_down}</span>
       <h2 className='mb-2'>Fail credits</h2>
       <span className="ps-5 pe-5 border rounded-1 bg-light primary-color fw-bold h3">{office.fail_credit}</span>
+      <h2 className='mb-2'>Last update</h2>
+      <span className="ps-5 pe-5 border rounded-1 bg-light primary-color fw-bold h3">{office.last_update ? format(new Date(office.last_update), 'MM/dd/yyyy HH:mm') : "-"}</span>
     </div>
   );
 };

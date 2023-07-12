@@ -1,22 +1,24 @@
-import React from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useForm } from "../../hooks/useForm";
 import { isMobile } from 'react-device-detect';
 import { Link } from "react-router-dom";
-import { fetchSinToken } from "../../helpers/fetch";
 import Swal from "sweetalert2";
-import logo from '../../images/logo.png';
 import { GoogleLogin } from '@react-oauth/google';
+import { useTranslation } from "react-i18next";
+
 import { login, startGetUser } from "../../actions/auth";
+import { useForm } from "../../hooks/useForm";
 import { OfficeModal } from "./OfficeModal";
 import { uiOpenModal } from "../../actions/ui";
-import { useState } from "react";
+import { fetchSinToken } from "../../helpers/fetch";
+import logo from '../../images/logo.png';
 
 export const LoginScreen = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [formLoginValues, handleLoginInputChange] = useForm({
-    lEmail: "",
-    lPassword: "",
+    lEmail: '',
+    lPassword: '',
   });
   const { lEmail, lPassword } = formLoginValues;
   const [officeData, setOfficeData] = useState(null);
@@ -26,7 +28,6 @@ export const LoginScreen = () => {
     const startLogin = async (emaill, password) => {
       let email = emaill.toLowerCase();
       const body = await fetchSinToken("auth", { email, password }, "POST");
-      // const body = await body.json();
       if (body.ok) {
         localStorage.setItem("token", body.token);
         localStorage.setItem("token-init-date", new Date().getTime());
@@ -42,13 +43,11 @@ export const LoginScreen = () => {
   const onSuccess = (res) => {
     const startGoogle = async (res) => {
       const bodi = await fetchSinToken(`auth/newgoogle`, { credential: res.credential }, "POST");
-      // const bodi = await body.json();
       if (bodi.isVerified) {
         if (bodi.created) {
           const startLoginGoogle = async (email, name, lastname) => {
             const role = 'office_manager';
             const body = await fetchSinToken("auth/google", { email, name, lastname, role }, "POST");
-            // const body = await body.json();
             if (body.ok) {
               localStorage.setItem("token", body.token);
               localStorage.setItem("token-init-date", new Date().getTime());
@@ -68,7 +67,7 @@ export const LoginScreen = () => {
     startGoogle(res);
   };
   const onError = (err) => {
-    Swal.fire("Error", "Error al iniciar con Google", "error");
+    Swal.fire("Error", t('errors.google_login'), "error");
   };
 
   return (
@@ -78,13 +77,13 @@ export const LoginScreen = () => {
           <h1 className="d-flex align-items-center justify-content-center mt-5" style={{ color: "#000" }}><img src={logo} className="w-100" alt="Blue Energy Solar Logo" /></h1>
           <div className="row">
             <div className="col-md-11 col-11 login-form-1 mt-5">
-              <h3>LOGIN</h3>
+              <h3>{t('auth.login.title')}</h3>
               <form onSubmit={handleLogin}>
                 <div className="form-group">
                   <input
                     type="text"
                     className="form-control mb-2"
-                    placeholder="Correo"
+                    placeholder={t('labels.email')}
                     name="lEmail"
                     value={lEmail}
                     onChange={handleLoginInputChange}
@@ -94,14 +93,14 @@ export const LoginScreen = () => {
                   <input
                     type="password"
                     className="form-control mb-3"
-                    placeholder="Contraseña"
+                    placeholder={t('labels.password')}
                     name="lPassword"
                     value={lPassword}
                     onChange={handleLoginInputChange}
                   />
                 </div>
                 <div className="form-group d-flex justify-content-center">
-                  <input type="submit" className="btn btn-primary btn-bright" value="Login" />
+                  <input type="submit" className="btn btn-primary btn-bright" value={t('buttons.login')} />
                 </div>
                 <div className="w-100 d-flex justify-content-center align-items-center mt-3">
                   <GoogleLogin
@@ -111,7 +110,7 @@ export const LoginScreen = () => {
                 </div>
               </form>
               <div className="form-group d-flex justify-content-center">
-                <h5>Not have an account? <Link className='text-decoration-none text-primary' to='/register'>Register</Link></h5>
+                <h5>{t('auth.login.go_to_register')} <Link className='text-decoration-none text-primary' to='/register'>{t('buttons.register')}</Link></h5>
               </div>
             </div>
           </div>
@@ -121,14 +120,14 @@ export const LoginScreen = () => {
           <h1 className="d-flex align-items-center justify-content-center" style={{ color: "#000" }}><img src={logo} className="w-30" alt="Blue Energy Solar Logo" /></h1>
           <div className="row mt-2">
             <div className="col-md-6 col-6 me-5 login-form-3">
-              <h3>LOGIN</h3>
+              <h3>{t('auth.login.title')}</h3>
               <form onSubmit={handleLogin}>
                 <div className="form-group d-flex flex-row justify-content-center align-items-center mb-3">
                   <i className="m-3 fa-solid fa-envelope fa-lg"></i>
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Correo"
+                    placeholder={t('labels.email')}
                     name="lEmail"
                     autoComplete="off"
                     value={lEmail}
@@ -140,7 +139,7 @@ export const LoginScreen = () => {
                   <input
                     type="password"
                     className="form-control"
-                    placeholder="Contraseña"
+                    placeholder={t('labels.password')}
                     name="lPassword"
                     autoComplete="off"
                     value={lPassword}
@@ -148,7 +147,7 @@ export const LoginScreen = () => {
                   />
                 </div>
                 <div className="form-group d-flex justify-content-center">
-                  <input type="submit" className="btn btn-primary btn-bright" value="Login" />
+                  <input type="submit" className="btn btn-primary btn-bright" value={t('buttons.login')} />
                 </div>
                 <div className="d-flex justify-content-center align-items-center mt-4">
                   <GoogleLogin
@@ -159,7 +158,7 @@ export const LoginScreen = () => {
                 {officeData && <OfficeModal bodi={officeData} />}
               </form>
               <div className="form-group d-flex justify-content-center">
-                <h5>Not have an account? <Link className='text-decoration-none text-primary' to='/register'>Register</Link></h5>
+                <h5>{t('auth.login.go_to_register')} <Link className='text-decoration-none text-primary' to='/register'>{t('buttons.register')}</Link></h5>
               </div>
             </div>
           </div>

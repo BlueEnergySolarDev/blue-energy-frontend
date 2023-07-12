@@ -1,26 +1,25 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { isMobile } from 'react-device-detect';
 import { useDispatch } from "react-redux";
 import Select from 'react-select';
 import Swal from "sweetalert2";
+import { useTranslation } from "react-i18next";
 
 import { useForm } from "../../hooks/useForm";
-import logo from '../../images/logo.png';
 import { startRegister } from "../../actions/auth";
-
-const colourStyles = {
-  control: styles => ({ ...styles, width: '100%' }),
-};
+import colourStyles from '../../helpers/selectStyles';
+import logo from '../../images/logo.png';
 
 export const RegisterScreen = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [formRegisterValues, handleRegisterInputChange] = useForm({
-    rName: "",
-    rLastname: "",
-    rEmail: "",
-    rPassword: "",
-    rPasswordConf: ""
+    rName: '',
+    rLastname: '',
+    rEmail: '',
+    rPassword: '',
+    rPasswordConf: ''
   });
   const { rEmail, rPassword, rName, rLastname, rPasswordConf } = formRegisterValues;
   const [office, setOffice] = useState(null);
@@ -32,17 +31,17 @@ export const RegisterScreen = () => {
   ];
   const handleRegister = (e) => {
     e.preventDefault();
-    if (rName === "" || rLastname === "" || rEmail === "" || rPassword === "" || rPasswordConf === "") {
+    if (rName === '' || rLastname === '' || rEmail === '' || rPassword === '' || rPasswordConf === '') {
       return Swal.fire(
         "Error",
-        "All fields must be completed",
+        t('errors.fields_required'),
         "error"
       );
     }
     if (rPassword !== rPasswordConf) {
       return Swal.fire(
         "Error",
-        "Passwords have to match",
+        t('errors.password_match'),
         "error"
       );
     }
@@ -58,7 +57,7 @@ export const RegisterScreen = () => {
           <h1 className="d-flex align-items-center justify-content-center mt-2" style={{ color: "#000" }}><img src={logo} className="w-100" alt="Blue Energy Solar Logo" /></h1>
           <div className="row">
             <div className="col-md-11 col-11 login-form-1 m-3">
-              <h3>REGISTER</h3>
+              <h3>{t('auth.register.title')}</h3>
               <form onSubmit={handleRegister}>
                 <div className="form-group d-flex flex-row justify-content-center align-items-center mb-3">
                   <div className="m-2 w-10">
@@ -67,7 +66,7 @@ export const RegisterScreen = () => {
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Email"
+                    placeholder={t('labels.email')}
                     name="rEmail"
                     autoComplete="off"
                     value={rEmail}
@@ -81,7 +80,7 @@ export const RegisterScreen = () => {
                   <input
                     type="password"
                     className="form-control"
-                    placeholder="Password"
+                    placeholder={t('labels.password')}
                     name="rPassword"
                     autoComplete="new-password"
                     value={rPassword}
@@ -95,7 +94,7 @@ export const RegisterScreen = () => {
                   <input
                     type="password"
                     className="form-control"
-                    placeholder="Confirm Password"
+                    placeholder={t('labels.confirm_password')}
                     name="rPasswordConf"
                     autoComplete="new-password"
                     value={rPasswordConf}
@@ -109,7 +108,7 @@ export const RegisterScreen = () => {
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Name"
+                    placeholder={t('labels.first_name')}
                     name="rName"
                     value={rName}
                     onChange={handleRegisterInputChange}
@@ -122,7 +121,7 @@ export const RegisterScreen = () => {
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Lastname"
+                    placeholder={t('labels.last_name')}
                     name="rLastname"
                     value={rLastname}
                     onChange={handleRegisterInputChange}
@@ -133,15 +132,15 @@ export const RegisterScreen = () => {
                     <i className="fa-solid fa-building fa-lg"></i>
                   </div>
                   <div className="w-100">
-                    <Select menuPlacement="auto" menuPosition="fixed" styles={colourStyles} options={offices} value={office} onChange={handleOffice} />
+                    <Select placeholder={t('select.placeholder')} menuPlacement="auto" menuPosition="fixed" styles={colourStyles} options={offices} value={office} onChange={handleOffice} />
                   </div>
                 </div>
                 <div className="form-group d-flex justify-content-center">
-                  <input type="submit" className="btn btn-primary btn-bright" value="Register" />
+                  <input type="submit" className="btn btn-primary btn-bright" value={t('buttons.register')} />
                 </div>
               </form>
               <div className="form-group d-flex justify-content-center">
-                <h5>Already register? <Link className='text-decoration-none text-primary' to={`/login`}>Login</Link></h5>
+                <h5>{t('auth.register.go_to_login')} <Link className='text-decoration-none text-primary' to={`/login`}>{t('buttons.login')}</Link></h5>
               </div>
             </div>
 
@@ -152,7 +151,7 @@ export const RegisterScreen = () => {
           <h1 className="d-flex align-items-center justify-content-center" style={{ color: "#000" }}><img src={logo} className="w-30" alt="Blue Energy Solar Logo" /></h1>
           <div className="row mt-2">
             <div className="col-md-6 col-6 me-5 login-form-3">
-              <h3>REGISTER</h3>
+              <h3>{t('auth.register.title')}</h3>
               <form onSubmit={handleRegister}>
                 <div className="form-group d-flex flex-row justify-content-center align-items-center mb-3">
                   <div className="m-2 w-5">
@@ -161,7 +160,7 @@ export const RegisterScreen = () => {
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Email"
+                    placeholder={t('labels.email')}
                     name="rEmail"
                     autoComplete="off"
                     value={rEmail}
@@ -175,7 +174,7 @@ export const RegisterScreen = () => {
                   <input
                     type="password"
                     className="form-control"
-                    placeholder="Password"
+                    placeholder={t('labels.password')}
                     name="rPassword"
                     autoComplete="new-password"
                     value={rPassword}
@@ -189,7 +188,7 @@ export const RegisterScreen = () => {
                   <input
                     type="password"
                     className="form-control"
-                    placeholder="Confirm Password"
+                    placeholder={t('labels.confirm_password')}
                     name="rPasswordConf"
                     autoComplete="new-password"
                     value={rPasswordConf}
@@ -203,7 +202,7 @@ export const RegisterScreen = () => {
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Name"
+                    placeholder={t('labels.first_name')}
                     name="rName"
                     value={rName}
                     onChange={handleRegisterInputChange}
@@ -216,7 +215,7 @@ export const RegisterScreen = () => {
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Lastname"
+                    placeholder={t('labels.last_name')}
                     name="rLastname"
                     value={rLastname}
                     onChange={handleRegisterInputChange}
@@ -227,15 +226,15 @@ export const RegisterScreen = () => {
                     <i className="fa-solid fa-building fa-lg"></i>
                   </div>
                   <div className="w-100">
-                    <Select menuPlacement="auto" menuPosition="fixed" styles={colourStyles} options={offices} value={office} onChange={handleOffice} />
+                    <Select placeholder={t('select.placeholder')} menuPlacement="auto" menuPosition="fixed" styles={colourStyles} options={offices} value={office} onChange={handleOffice} />
                   </div>
                 </div>
                 <div className="form-group d-flex justify-content-center">
-                  <input type="submit" className="btn btn-primary btn-bright" value="Register" />
+                  <input type="submit" className="btn btn-primary btn-bright" value={t('buttons.register')} />
                 </div>
               </form>
               <div className="form-group d-flex justify-content-center">
-                <h5>Already register? <Link className='text-decoration-none text-primary' to={`/login`}>Login</Link></h5>
+                <h5>{t('auth.register.go_to_login')} <Link className='text-decoration-none text-primary' to={`/login`}>{t('buttons.login')}</Link></h5>
               </div>
             </div>
           </div>

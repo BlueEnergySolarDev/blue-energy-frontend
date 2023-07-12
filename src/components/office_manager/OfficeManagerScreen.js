@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchConToken } from '../../helpers/fetch';
 import Swal from 'sweetalert2';
-import { useForm } from '../../hooks/useForm';
 import { isMobile } from 'react-device-detect';
+import { useTranslation } from 'react-i18next';
+
+import { useForm } from '../../hooks/useForm';
 import { PaginatedSitDownsSimplesItems } from '../sitdownsimple/PaginatedSitDownsSimplesItems';
+import { fetchConToken } from '../../helpers/fetch';
 import { OfficeCard } from '../user/OfficeCard';
 import { LoadingSpinner } from '../ui/LoadingSpinner';
 
 export const OfficeManagerScreen = () => {
+  const { t } = useTranslation();
   const { uid, office } = useSelector((state) => state.auth);
   const [loading, setLoading] = useState(false);
   const [sitDowns, setSitDowns] = useState([]);
@@ -47,7 +50,7 @@ export const OfficeManagerScreen = () => {
     return () => {
       isMounted = false;
     }
-  }, []);
+  }, [uid]);
 
   const incrementCount = (name) => {
     handleAmountInputChange(1, 'plus', name)
@@ -66,7 +69,7 @@ export const OfficeManagerScreen = () => {
       const body = await fetchConToken("sitdowns/addsimple", { amount: sAmount, office, user: uid, fail_credit: sFailCredit }, "POST");
       if (body.ok) {
         setOfficeData(body.office);
-        Swal.fire("Success", 'Amount updated sucessfully', "success");
+        Swal.fire(t('success.title'), t('success.amount_update'), "success");
         const getSitDownsSimples = async () => {
           const body = await fetchConToken(`sitdowns/simple/${office}`);
           setSitDowns(body.sitDownsSimples);
@@ -94,14 +97,14 @@ export const OfficeManagerScreen = () => {
                   <div className='d-flex flex-column justify-content-evenly align-items-center'>
                     <Link to="/sitdowndetail" className='mb-3 mt-3 text-decoration-none'>
                       <button className="btn btn-primary btn-lg btn-secondary-back" title="Add sit down detail">
-                        <i className="fas fa-handshake"></i> Sit Down Detail
+                        <i className="fas fa-handshake"></i> {t('detailed_sit_downs.title')}
                       </button>
                     </Link>
-                    <h1 className='text-dark'>SIT DOWN</h1>
+                    <h1 className='text-dark'>{t('sit_downs.sit_down')}</h1>
                     <div className='w-100'>
                       <div className='d-flex flex-column justify-content-center align-items-center col'>
                         <div className='mb-2'>
-                          <h2 className='fw-bold h4'>Amount</h2>
+                          <h2 className='fw-bold h4'>{t('office_manager.amount')}</h2>
                         </div>
                         <input
                           className="border rounded-pill border-primary secondary-back text-light text-center fw-bold h3 border-bright"
@@ -123,7 +126,7 @@ export const OfficeManagerScreen = () => {
                           </button>
                         </div>
                         <div className='mb-2'>
-                          <h2 className='fw-bold h4'>Fail Credits</h2>
+                          <h2 className='fw-bold h4'>{t('sit_downs.fail_credits')}</h2>
                         </div>
                         <input
                           className="border rounded-pill border-primary secondary-back text-light text-center fw-bold h3 border-bright"
@@ -145,7 +148,7 @@ export const OfficeManagerScreen = () => {
                           </button>
                         </div>
                         <button onClick={saveSitDown} className="btn btn-success btn-bright-sm mt-2" title="Sit down control">
-                          <i className="fas fa-floppy-disk"></i> Save
+                          <i className="fas fa-floppy-disk"></i> {t('buttons.save')}
                         </button>
                       </div>
                       <div className='mt-4'>
@@ -153,12 +156,12 @@ export const OfficeManagerScreen = () => {
                       </div>
                     </div>
                     <div className='d-flex flex-column justify-content-center align-items-center mt-3 mb-3 w-100' data-aos="fade-up" data-aos-duration="1000">
-                      <h2 className='text-dark'>Simple Sit Down Register</h2>
+                      <h2 className='text-dark'>{t('sit_downs.simple_register')}</h2>
                       {sitDowns.length > 0 ?
                         <PaginatedSitDownsSimplesItems itemsPerPage={10} items={sitDowns} loading={loading} />
                         :
                         <div className='p-5'>
-                          <span className="h3 text-dark">No sit downs</span>
+                          <span className="h3 text-dark">{t('sit_downs.empty')}</span>
                         </div>
                       }
                     </div>
@@ -169,14 +172,14 @@ export const OfficeManagerScreen = () => {
                   <div className='d-flex flex-column justify-content-evenly align-items-center'>
                     <Link to="/sitdowndetail" className='mb-2 mt-2 text-decoration-none'>
                       <button className="btn btn-primary btn-lg btn-secondary-back" title="Add sit down detail">
-                        <i className="fas fa-handshake"></i> Sit Down Detail
+                        <i className="fas fa-handshake"></i> {t('detailed_sit_downs.title')}
                       </button>
                     </Link>
-                    <h1 className='text-dark'>SIT DOWN</h1>
+                    <h1 className='text-dark'>{t('sit_downs.sit_down')}</h1>
                     <div className='row w-100'>
                       <div className='d-flex flex-column justify-content-center align-items-center col'>
                         <div className='mb-2'>
-                          <h2 className='fw-bold h4'>Amount</h2>
+                          <h2 className='fw-bold h4'>{t('office_manager.amount')}</h2>
                         </div>
                         <input
                           className="border rounded-pill border-primary secondary-back text-light text-center fw-bold h3 border-bright"
@@ -198,7 +201,7 @@ export const OfficeManagerScreen = () => {
                           </button>
                         </div>
                         <div className='mb-2'>
-                          <h2 className='fw-bold h4'>Fail Credits</h2>
+                          <h2 className='fw-bold h4'>{t('sit_downs.fail_credits')}</h2>
                         </div>
                         <input
                           className="border rounded-pill border-primary secondary-back text-light text-center fw-bold h3 border-bright"
@@ -220,19 +223,19 @@ export const OfficeManagerScreen = () => {
                           </button>
                         </div>
                         <button onClick={saveSitDown} className="btn btn-success btn-bright-sm mt-2" title="Sit down control">
-                          <i className="fas fa-floppy-disk"></i> Save
+                          <i className="fas fa-floppy-disk"></i> {t('buttons.save')}
                         </button>
                       </div>
                       <OfficeCard office={officeData} />
                     </div>
 
                     <div className='d-flex flex-column justify-content-center align-items-center mt-5 mb-3 w-100' data-aos="fade-up" data-aos-duration="1000">
-                      <h2 className='text-dark'>Simple Sit Down Register</h2>
+                      <h2 className='text-dark'>{t('sit_downs.simple_register')}</h2>
                       {sitDowns.length > 0 ?
                         <PaginatedSitDownsSimplesItems itemsPerPage={10} items={sitDowns} loading={loading} />
                         :
                         <div className='p-5'>
-                          <span className="h3 text-dark">No sit downs</span>
+                          <span className="h3 text-dark">{t('sit_downs.empty')}</span>
                         </div>
                       }
                     </div>

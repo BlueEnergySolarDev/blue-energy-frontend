@@ -7,11 +7,15 @@ import "./styles/styles.scss";
 import AOS from 'aos';
 import "aos/dist/aos.css";
 import 'aos/dist/aos.js';
-// import './i18n';
+import './helpers/i18n';
 AOS.init();
 
 ReactDOM.render(
-    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENTID}><BlueEnergyApp /></GoogleOAuthProvider>,
+    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENTID}>
+        <React.StrictMode>
+            <BlueEnergyApp />
+        </React.StrictMode>
+    </GoogleOAuthProvider>,
     document.getElementById("root"),
     document.addEventListener("DOMContentLoaded", function () {
         setTimeout(function () { AOS.refresh(); }, 1000)

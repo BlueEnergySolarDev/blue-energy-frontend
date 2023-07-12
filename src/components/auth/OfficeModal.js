@@ -1,15 +1,15 @@
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import Modal from "react-modal";
 import Select from 'react-select';
 import Swal from "sweetalert2";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { uiCloseModal } from "../../actions/ui";
 import { fetchSinToken } from "../../helpers/fetch";
-import "../modal.css";
 import { login, startGetUser } from "../../actions/auth";
-
+import colourStyles from '../../helpers/selectStyles';
+import "../modal.css";
 
 const customStyles = {
   content: {
@@ -25,14 +25,9 @@ if (process.env.NODE_ENV !== "test") {
   Modal.setAppElement("#root");
 }
 
-const colourStyles = {
-  control: styles => ({ ...styles, width: '100%' }),
-};
-
 export const OfficeModal = ({ bodi }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { uid } = useSelector((state) => state.auth);
   const { modalOpen } = useSelector((state) => state.ui);
   const [office, setOffice] = useState(null);
   const offices = [
@@ -55,7 +50,6 @@ export const OfficeModal = ({ bodi }) => {
     const startLoginGoogle = async (email, name, lastname, office) => {
       const role = 'office_manager';
       const body = await fetchSinToken("auth/google", { email, name, lastname, role, office }, "POST");
-      // const body = await body.json();
       if (body.ok) {
         localStorage.setItem("token", body.token);
         localStorage.setItem("token-init-date", new Date().getTime());
@@ -79,11 +73,10 @@ export const OfficeModal = ({ bodi }) => {
         style={customStyles}
         closeTimeoutMS={200}
         className="modal"
-        // overlayClassName="modal-fondo"
         ariaHideApp={process.env.NODE_ENV === "test"}
       >
         <div className="d-flex flex-column justify-content-center align-items-center">
-          <b style={{ fontSize: "25px" }}>Select your office</b>
+          <b style={{ fontSize: "25px" }}>{t('office.select_office')}</b>
         </div>
         <hr />
         <div className="d-flex flex-column justify-content-center align-items-center w-100">
@@ -93,12 +86,12 @@ export const OfficeModal = ({ bodi }) => {
                 <i className="fa-solid fa-building fa-lg"></i>
               </div>
               <div className="w-100">
-                <Select styles={colourStyles} options={offices} value={office} onChange={handleOffice} />
+                <Select placeholder={t('select.placeholder')} styles={colourStyles} options={offices} value={office} onChange={handleOffice} />
               </div>
             </div>
             <div className="form-group d-flex justify-content-center">
               <button onClick={handleSetOffice} className="btn btn-primary btn-bright mt-4">
-                Save
+                {t('buttons.save')}
               </button>
             </div>
           </div>

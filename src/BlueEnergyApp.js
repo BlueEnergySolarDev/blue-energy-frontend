@@ -1,9 +1,9 @@
-import React from "react";
 import { Provider } from "react-redux";
-import { AppRouter } from "./router/AppRouter";
+import { SWRConfig } from "swr";
+
 import { store } from "./store/store";
 import { fetchConToken } from "./helpers/fetch";
-import { SWRConfig } from "swr";
+import { AppRouter } from "./router/AppRouter";
 
 const fetcher = (url) => fetchConToken(url);
 

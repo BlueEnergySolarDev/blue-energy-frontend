@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
 import { PrivateRoute } from "./PrivateRoute";
 import { PublicRoute } from "./PublicRoute";
 import { NotFoundScreen } from "../components/ui/NotFoundScreen";
 import { Layout } from "./Layout";
 import { Loading } from "./Loading";
-import { useDispatch, useSelector } from "react-redux";
 import { startChecking } from "../actions/auth";
 import { LoginScreen } from "../components/auth/LoginScreen";
 import { RegisterScreen } from "../components/auth/RegisterScreen";
@@ -17,6 +18,7 @@ import { EditUser } from "../components/admin/EditUser";
 import { UsersScreen } from "../components/admin/UsersScreen";
 import { SitDownsScreen } from "../components/sitdowns/SitDownsScreen";
 import { EditSitDown } from "../components/sitdowns/EditSitDown";
+import { PublicLayout } from "./PublicLayout";
 
 export const AppRouter = () => {
   const dispatch = useDispatch();
@@ -54,8 +56,10 @@ export const AppRouter = () => {
           </Route>
         </Route>
         <Route element={<PublicRoute isAuthenticated={!!uid} />}>
-          <Route index path="/login" element={<LoginScreen />} />
-          <Route path="/register" element={<RegisterScreen />} />
+          <Route path="/" element={<PublicLayout />}>
+            <Route index path="/login" element={<LoginScreen />} />
+            <Route path="/register" element={<RegisterScreen />} />
+          </Route>
         </Route>
       </Routes>
     </Router>

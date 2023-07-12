@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
+
 import { SitDownsAddedItems } from './SitDownsAddedItems';
 
 export const PaginatedSitDownsAddedItems = ({ itemsPerPage, items, loading }) => {

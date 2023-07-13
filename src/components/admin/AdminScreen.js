@@ -80,15 +80,15 @@ export const AdminScreen = () => {
                             })}
                           </div>
                           <div className='row mt-2 gx-5' data-aos="fade-up" data-aos-duration="1000">
-                            <div className='col m-1 d-flex flex-column justify-content-center align-items-center rounded-3 degrade-ld-back text-light p-2'>
-                              <h2 className='mb-2'>{t('admin.total')}</h2>
+                            <div className='col m-1 d-flex flex-column justify-content-center rounded-3 degrade-ld-back text-light p-2'>
+                              <h2 className='mb-2 text-center'>{t('admin.total')}</h2>
                               <hr className='p-0 m-0' />
-                              <div className='d-flex flex-row mt-1'>
-                                <div className='d-flex flex-column me-5 w-50'>
+                              <div className='d-flex justify-content-evenly mt-1'>
+                                <div className='d-flex flex-column'>
                                   <h2 className='mb-2'>{t('sit_downs.title')}</h2>
                                   <span className="ps-5 pe-5 border rounded-1 bg-light primary-color fw-bold h3">{offices?.totalSitDowns}</span>
                                 </div>
-                                <div className='d-flex flex-column w-50'>
+                                <div className='d-flex flex-column'>
                                   <h2 className='mb-2'>{t('sit_downs.fail_credits')}</h2>
                                   <span className="ps-5 pe-5 border rounded-1 bg-light primary-color fw-bold h3">{offices?.totalFailCredits}</span>
                                 </div>
@@ -111,7 +111,7 @@ export const AdminScreen = () => {
                       </Link>
                     </div>
                     <div className='d-flex flex-column justify-content-center align-items-center mt-3 mb-3 w-100' data-aos="fade-up" data-aos-duration="1000">
-                      <div className='dropend w-100 d-flex align-self-start ps-2'>
+                      <div className='dropend w-100 d-flex align-self-start ps-2 mb-3'>
                         <button className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                           <i className="fa fa-filter"></i>
                         </button>
@@ -187,7 +187,7 @@ export const AdminScreen = () => {
                       </Link>
                     </div>
                     <div className='d-flex flex-column justify-content-center align-items-center mt-3 mb-3 w-100' data-aos="fade-up" data-aos-duration="1000">
-                      <div className='dropend w-50 d-flex align-self-start ps-2'>
+                      <div className='dropend w-50 d-flex align-self-start ps-2 mb-3'>
                         <button className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                           <i className="fa fa-filter"></i>
                         </button>

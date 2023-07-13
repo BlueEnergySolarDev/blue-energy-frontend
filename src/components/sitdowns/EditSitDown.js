@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Select from 'react-select';
@@ -16,11 +16,15 @@ import { useForm } from '../../hooks/useForm';
 import { fetchConToken } from '../../helpers/fetch';
 import { LoadingSpinner } from '../ui/LoadingSpinner';
 import colourStyles from '../../helpers/selectStyles';
+import { AddCloserModal } from './AddCloserModal';
+import { AddCanvasserModal } from './AddCanvasserModal';
+import { uiOpenModal, uiOpenModall } from '../../actions/ui';
 
 export const EditSitDown = () => {
   const { t } = useTranslation();
   const { office, uid } = useSelector((state) => state.auth);
   const { sitDownSelected } = useSelector((state) => state.sitDown);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formSitDownValues, handleSitDownInputChange, reset] = useForm({
     sName: sitDownSelected ? sitDownSelected.name : '',
@@ -38,10 +42,10 @@ export const EditSitDown = () => {
     { value: 'fail_credit', label: <span><i className="fas fa-credit-card text-danger"></i> {t('labels.fail_credit')}</span> },
     { value: 'payed', label: <span><i className="fas fa-check text-success"></i> {t('labels.payed')}</span> },
   ], [t]);
-  const { data: canvasserApi } = useSWR("canvassers");
   const canvassers = [];
-  const { data: closersApi } = useSWR("closers");
   const closers = [];
+  const { data: closersApi, mutate: mutateCloser } = useSWR("closers");
+  const { data: canvasserApi, mutate: mutateCanvasser } = useSWR("canvassers");
 
   useEffect(() => {
     const initialize = async () => {
@@ -134,7 +138,7 @@ export const EditSitDown = () => {
       canvasserr = canvasser.value;
     }
     if (sitDownSelected) {
-      
+
       const startUpdateSitDown = async (id, name, address, phone_number, email, reason, date, status, closer, canvasser, office, user) => {
         const body = await fetchConToken(
           "sitdowns/update",
@@ -153,6 +157,12 @@ export const EditSitDown = () => {
   };
   const handleReturn = () => {
     navigate('/sitdowndetail');
+  };
+  const goCreateCloser = () => {
+    dispatch(uiOpenModal());
+  };
+  const goCreateCanvasser = () => {
+    dispatch(uiOpenModall());
   };
   return (
     <>
@@ -234,14 +244,16 @@ export const EditSitDown = () => {
                     </div>
                     <div className="form-group mb-3">
                       <label className='text-light'>{t('labels.closer')}</label>
-                      <div className="w-100">
-                        <Select styles={colourStyles} options={closers} value={closer} onChange={handleCloser} />
+                      <div className="w-100 row">
+                        <Select className='col-10' placeholder={t('select.placeholder')} styles={colourStyles} options={closers} value={closer} onChange={handleCloser} />
+                        <button className='col btn btn-success btn-sm ms-1' onClick={goCreateCloser} type="button"><i className="fa-solid fa-user-plus"></i></button>
                       </div>
                     </div>
                     <div className="form-group mb-3">
                       <label className='text-light'>{t('labels.canvasser')}</label>
-                      <div className="w-100">
-                        <Select styles={colourStyles} options={canvassers} value={canvasser} onChange={handleCanvasser} />
+                      <div className="w-100 row">
+                        <Select className='col-10' placeholder={t('select.placeholder')} styles={colourStyles} options={canvassers} value={canvasser} onChange={handleCanvasser} />
+                        <button className='col btn btn-success btn-sm ms-1' onClick={goCreateCanvasser} type="button"><i className="fa-solid fa-user-plus"></i></button>
                       </div>
                     </div>
                     <div className="form-group mb-3">
@@ -262,6 +274,8 @@ export const EditSitDown = () => {
                     </button>
                   </div>
                 </div>
+                <AddCloserModal setCloser={setCloser} mutate={mutateCloser} />
+                <AddCanvasserModal setCanvasser={setCanvasser} mutate={mutateCanvasser} />
               </div>
               :
               <div className='d-flex flex-column justify-content-center align-items-center mt-4' data-aos="fade-up" data-aos-duration="1000">
@@ -334,14 +348,16 @@ export const EditSitDown = () => {
                     </div>
                     <div className="form-group mb-3">
                       <label className='text-light'>{t('labels.closer')}</label>
-                      <div className="w-100">
-                        <Select styles={colourStyles} options={closers} value={closer} onChange={handleCloser} />
+                      <div className="w-100 row">
+                        <Select className='col-xxl-11 col-xl-11 col-lg-10 col-md-10 col-sm-9 col-auto' placeholder={t('select.placeholder')} styles={colourStyles} options={closers} value={closer} onChange={handleCloser} />
+                        <button className='col btn btn-success btn-sm ms-1' onClick={goCreateCloser} type="button"><i className="fa-solid fa-user-plus"></i></button>
                       </div>
                     </div>
                     <div className="form-group mb-3">
                       <label className='text-light'>{t('labels.canvasser')}</label>
-                      <div className="w-100">
-                        <Select styles={colourStyles} options={canvassers} value={canvasser} onChange={handleCanvasser} />
+                      <div className="w-100 row">
+                        <Select className='col-xxl-11 col-xl-11 col-lg-10 col-md-10 col-sm-9 col-auto' placeholder={t('select.placeholder')} styles={colourStyles} options={canvassers} value={canvasser} onChange={handleCanvasser} />
+                        <button className='col btn btn-success btn-sm ms-1' onClick={goCreateCanvasser} type="button"><i className="fa-solid fa-user-plus"></i></button>
                       </div>
                     </div>
                     <div className="form-group mb-3">
@@ -362,6 +378,8 @@ export const EditSitDown = () => {
                     </button>
                   </div>
                 </div>
+                <AddCloserModal setCloser={setCloser} mutate={mutateCloser} />
+                <AddCanvasserModal setCanvasser={setCanvasser} mutate={mutateCanvasser} />
               </div>
           }
         </div>

@@ -53,7 +53,7 @@ export const ChangePasswordScreen = () => {
     <>
       <div className="d-flex flex-column justify-content-center align-items-center mb-5" data-aos="fade-up" data-aos-duration="1000">
         <form onSubmit={handleUpdate} className={isMobile ? "w-95" : "w-50"}>
-          <h2 className="mb-1 text-dark text-center">{t('profile.change_password')}</h2>
+          <h3 className="mb-1 text-dark text-center h4">{t('profile.change_password')}</h3>
           <hr className="bg-dark" />
           <div className="form-group mb-2">
             <label>{t('labels.password')}</label>

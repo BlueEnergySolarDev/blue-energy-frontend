@@ -79,7 +79,7 @@ const enUS = {
         title: 'Success',
         amount_update: 'Amount updated sucessfully',
         sit_down_created: 'Detailed Sit Down Created',
-        sit_down_udpated: 'Detailed Sit Down Updated'
+        sit_down_updated: 'Detailed Sit Down Updated'
     },
     buttons: {
         save: 'Save',

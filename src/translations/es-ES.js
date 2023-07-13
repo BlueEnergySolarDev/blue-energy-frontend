@@ -79,7 +79,7 @@ const esES = {
         title: 'Exito',
         amount_update: 'Cantidad actualizada exitosamente',
         sit_down_created: 'Sentada detallada creada',
-        sit_down_udpated: 'Sentada detalla actualizada'
+        sit_down_updated: 'Sentada detalla actualizada'
     },
     buttons: {
         save: 'Guardar',

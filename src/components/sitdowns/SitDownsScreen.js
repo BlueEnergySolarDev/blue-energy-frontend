@@ -60,16 +60,24 @@ export const SitDownsScreen = () => {
   const [values, setValues] = useState({ cSearch: "" });
   const handleSearchInputChange = ({ target }) => {
     const getSitDowns = async () => {
-      setLoading(true);
-      const body = await fetchConToken(`sitdowns`);
+      let body;
+      if (role === 'office_manager') {
+        body = await fetchConToken('sitdowns/id/' + uid);
+      } else {
+        body = await fetchConToken(`sitdowns`);
+      }
       setCloser(null);
       setStatus(null);
       setCanvasser(null);
       setSitDowns(body.sitDowns);
-      setLoading(false);
     }
     const searchSitDown = async () => {
-      const body = await fetchConToken(`sitdowns/search/${target.value}`);
+      let body;
+      if (role === 'office_manager') {
+        body = await fetchConToken(`sitdowns/search/id/${uid}/${target.value}`);
+      } else {
+        body = await fetchConToken(`sitdowns/search/${target.value}`);
+      }
       setCloser(null);
       setStatus(null);
       setCanvasser(null);
@@ -91,7 +99,12 @@ export const SitDownsScreen = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     const searchSitDown = async () => {
-      const body = await fetchConToken(`sitdowns/search/${cSearch}`);
+      let body;
+      if (role === 'office_manager') {
+        body = await fetchConToken(`sitdowns/search/id/${uid}/${cSearch}`);
+      } else {
+        body = await fetchConToken(`sitdowns/search/${cSearch}`);
+      }
       setCloser(null);
       setStatus(null);
       setCanvasser(null);
@@ -121,7 +134,12 @@ export const SitDownsScreen = () => {
     setCloser(e);
     if (e) {
       const searchSitDownByCloser = async () => {
-        const body = await fetchConToken(`sitdowns/searchbycloser/${e.value}`);
+        let body;
+        if (role === 'office_manager') {
+          body = await fetchConToken(`sitdowns/searchbycloser/id/${uid}/${e.value}`);
+        } else {
+          body = await fetchConToken(`sitdowns/searchbycloser/${e.value}`);
+        }
         setSitDowns(body.sitDowns);
       }
       searchSitDownByCloser();
@@ -149,7 +167,12 @@ export const SitDownsScreen = () => {
     setCanvasser(e);
     if (e) {
       const searchSitDownByCanvasser = async () => {
-        const body = await fetchConToken(`sitdowns/searchbycanvasser/${e.value}`);
+        let body;
+        if (role === 'office_manager') {
+          body = await fetchConToken(`sitdowns/searchbycanvasser/id/${uid}/${e.value}`);
+        } else {
+          body = await fetchConToken(`sitdowns/searchbycanvasser/${e.value}`);
+        }
         setSitDowns(body.sitDowns);
       }
       searchSitDownByCanvasser();
@@ -167,7 +190,12 @@ export const SitDownsScreen = () => {
     setStatus(e);
     if (e) {
       const searchSitDownByStatus = async () => {
-        const body = await fetchConToken(`sitdowns/searchbystatus/${e.value}`);
+        let body;
+        if (role === 'office_manager') {
+          body = await fetchConToken(`sitdowns/searchbystatus/id/${uid}/${e.value}`);
+        } else {
+          body = await fetchConToken(`sitdowns/searchbystatus/${e.value}`);
+        }
         setSitDowns(body.sitDowns);
       }
       searchSitDownByStatus();
@@ -182,6 +210,19 @@ export const SitDownsScreen = () => {
     setCloser(null);
     setStatus(null);
     setCanvasser(null);
+    const getSitDowns = async () => {
+      let body;
+      if (role === 'office_manager') {
+        body = await fetchConToken('sitdowns/id/' + uid);
+      } else {
+        body = await fetchConToken(`sitdowns`);
+      }
+      setCloser(null);
+      setStatus(null);
+      setCanvasser(null);
+      setSitDowns(body.sitDowns);
+    }
+    getSitDowns();
   };
 
   const handleReturn = (e) => {

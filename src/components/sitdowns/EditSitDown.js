@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -32,36 +32,40 @@ export const EditSitDown = () => {
   const { sName, sAddress, sPhoneNumber, sEmail, sReason } = formSitDownValues;
   const [isLoading, setIsLoading] = useState(false);
 
-  const statuses = [
+  const statuses = useMemo(() => [
     { value: 'processed', label: <span><i className="fas fa-spinner text-muted"></i> {t('labels.processed')}</span> },
     { value: 'incomplete', label: <span><i className="fas fa-exclamation-circle text-warning"></i> {t('labels.incomplete')}</span> },
     { value: 'fail_credit', label: <span><i className="fas fa-credit-card text-danger"></i> {t('labels.fail_credit')}</span> },
     { value: 'payed', label: <span><i className="fas fa-check text-success"></i> {t('labels.payed')}</span> },
-  ];
+  ], [t]);
   const { data: canvasserApi } = useSWR("canvassers");
   const canvassers = [];
   const { data: closersApi } = useSWR("closers");
   const closers = [];
 
-  useEffect(async () => {
-    setIsLoading(true);
-    const { sitDown: sitDownSelected } = await fetchConToken(`sitdowns/getbyid/${localStorage.getItem('sitDownId')}`);
-    reset({
-      sName: sitDownSelected ? sitDownSelected.name : '',
-      sAddress: sitDownSelected ? sitDownSelected.address : '',
-      sPhoneNumber: sitDownSelected ? sitDownSelected.phone_number : '',
-      sEmail: sitDownSelected ? sitDownSelected.email : '',
-      sReason: sitDownSelected ? sitDownSelected.reason : '',
-    })
-    setCanvasser(sitDownSelected?.canvasser && { value: sitDownSelected.canvasser.id, label: sitDownSelected.canvasser.firstName + ' ' + sitDownSelected.canvasser.lastName })
-    setCloser(sitDownSelected?.closer && { value: sitDownSelected.closer.id, label: sitDownSelected.closer.firstName + ' ' + sitDownSelected.closer.lastName })
-    setStatus(sitDownSelected?.status
-      &&
-      statuses.filter((v) => {
-        return sitDownSelected?.status === v.value
+  useEffect(() => {
+    const initialize = async () => {
+      setIsLoading(true);
+      const { sitDown: sitDownSelected } = await fetchConToken(`sitdowns/getbyid/${localStorage.getItem('sitDownId')}`);
+      reset({
+        sName: sitDownSelected ? sitDownSelected.name : '',
+        sAddress: sitDownSelected ? sitDownSelected.address : '',
+        sPhoneNumber: sitDownSelected ? sitDownSelected.phone_number : '',
+        sEmail: sitDownSelected ? sitDownSelected.email : '',
+        sReason: sitDownSelected ? sitDownSelected.reason : '',
       })
-    )
-    setIsLoading(false);
+      setCanvasser(sitDownSelected?.canvasser && { value: sitDownSelected.canvasser._id, label: sitDownSelected.canvasser.firstName + ' ' + sitDownSelected.canvasser.lastName })
+      setCloser(sitDownSelected?.closer && { value: sitDownSelected.closer._id, label: sitDownSelected.closer.firstName + ' ' + sitDownSelected.closer.lastName })
+      setStatus(sitDownSelected?.status
+        &&
+        statuses.filter((v) => {
+          return sitDownSelected?.status === v.value
+        })[0]
+      )
+      setIsLoading(false);
+    };
+    initialize();
+
   }, [])
 
   const [date, setDate] = useState(sitDownSelected ? format(new Date(sitDownSelected.date), 'MM-dd-yyyy HH:mm') : format(new Date(), 'MM-dd-yyyy HH:mm'));
@@ -79,7 +83,7 @@ export const EditSitDown = () => {
       canvassers.push(canvasser);
     }
   }
-  const [canvasser, setCanvasser] = useState(sitDownSelected?.canvasser ? { value: sitDownSelected.canvasser.id, label: sitDownSelected.canvasser.firstName + ' ' + sitDownSelected.canvasser.lastName } : null);
+  const [canvasser, setCanvasser] = useState(sitDownSelected?.canvasser ? { value: sitDownSelected.canvasser._id, label: sitDownSelected.canvasser.firstName + ' ' + sitDownSelected.canvasser.lastName } : null);
   const handleCanvasser = (e) => {
     setCanvasser(e);
   };
@@ -94,7 +98,7 @@ export const EditSitDown = () => {
       closers.push(closer);
     }
   }
-  const [closer, setCloser] = useState(sitDownSelected?.closer ? { value: sitDownSelected.closer.id, label: sitDownSelected.closer.firstName + ' ' + sitDownSelected.closer.lastName } : null);
+  const [closer, setCloser] = useState(sitDownSelected?.closer ? { value: sitDownSelected.closer._id, label: sitDownSelected.closer.firstName + ' ' + sitDownSelected.closer.lastName } : null);
   const handleCloser = (e) => {
     setCloser(e);
   };
@@ -130,6 +134,7 @@ export const EditSitDown = () => {
       canvasserr = canvasser.value;
     }
     if (sitDownSelected) {
+      
       const startUpdateSitDown = async (id, name, address, phone_number, email, reason, date, status, closer, canvasser, office, user) => {
         const body = await fetchConToken(
           "sitdowns/update",

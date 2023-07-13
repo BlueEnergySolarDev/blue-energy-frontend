@@ -26,7 +26,7 @@ export const LoginScreen = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     const startLogin = async (emaill, password) => {
-      let email = emaill.toLowerCase();
+      const email = emaill.toLowerCase().trim();
       const body = await fetchSinToken("auth", { email, password }, "POST");
       if (body.ok) {
         localStorage.setItem("token", body.token);
@@ -45,7 +45,9 @@ export const LoginScreen = () => {
       const bodi = await fetchSinToken(`auth/newgoogle`, { credential: res.credential }, "POST");
       if (bodi.isVerified) {
         if (bodi.created) {
-          const startLoginGoogle = async (email, name, lastname) => {
+          const startLoginGoogle = async (email, namee, lastnamee) => {
+            const lastname = lastnamee.toUpperCase().trim();
+            const name = namee.toUpperCase().trim();
             const role = 'office_manager';
             const body = await fetchSinToken("auth/google", { email, name, lastname, role }, "POST");
             if (body.ok) {

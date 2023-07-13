@@ -121,7 +121,7 @@ export const AddSitDown = () => {
       isMobile
         ?
         <div className='d-flex flex-column justify-content-center align-items-center mt-4' data-aos="fade-up" data-aos-duration="1000">
-          <h1 className='text-dark h1'>{t('detailed_sit_downs.register.title')}</h1>
+          <h1 className='text-dark h1 text-center'>{t('detailed_sit_downs.register.title')}</h1>
           <div className="col-md-6 login-form-2 m-4">
             <form onSubmit={handleAddSitDown}>
               <div className="form-group">
@@ -218,7 +218,7 @@ export const AddSitDown = () => {
               </button>
             </div>
           </div>
-          <h1 className="text-dark mb-4 mt-2 h1">{t('detailed_sit_downs.register.table')}</h1>
+          <h1 className="text-dark mb-4 mt-2 h1 text-center">{t('detailed_sit_downs.register.table')}</h1>
           {
             sitDowns.length > 0 ?
               <PaginatedSitDownsAddedItems itemsPerPage={10} items={sitDowns} loading={false} />
@@ -325,7 +325,7 @@ export const AddSitDown = () => {
               </button>
             </div>
           </div>
-          <h1 className="text-dark mb-4 mt-2">{t('detailed_sit_downs.register.table')}</h1>
+          <h1 className="text-dark mb-4 mt-2 text-center">{t('detailed_sit_downs.register.table')}</h1>
           {
             sitDowns.length > 0 ?
               <PaginatedSitDownsAddedItems itemsPerPage={10} items={sitDowns} loading={false} />

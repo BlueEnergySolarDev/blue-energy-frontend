@@ -4,7 +4,7 @@ import { types } from "../types/types";
 
 export const startLogin = (emaill, password) => {
   return async (dispatch) => {
-    let email = emaill.toLowerCase();
+    const email = emaill.toLowerCase().trim();
     const body = await fetchSinToken("auth", { email, password }, "POST");
     if (body.ok) {
       localStorage.setItem("token", body.token);
@@ -16,11 +16,12 @@ export const startLogin = (emaill, password) => {
     }
   };
 };
-export const startRegister = (email, password, namee, lastnamee, office) => {
+export const startRegister = (emaill, password, namee, lastnamee, office) => {
   return async (dispatch) => {
+    const email = emaill.toLowerCase().trim();
     const role = 'office_manager';
-    const lastname = lastnamee.toUpperCase();
-    const name = namee.toUpperCase();
+    const lastname = lastnamee.toUpperCase().trim();
+    const name = namee.toUpperCase().trim();
     const body = await fetchConToken(
       "auth/new",
       { email, password, name, lastname, role, office },
@@ -38,10 +39,11 @@ export const startRegister = (email, password, namee, lastnamee, office) => {
   };
 };
 
-export const startUpdateUser = (email, namee, lastnamee, office) => {
+export const startUpdateUser = (emaill, namee, lastnamee, office) => {
   return async (dispatch) => {
-    let lastname = lastnamee.toUpperCase();
-    let name = namee.toUpperCase();
+    const email = emaill.toLowerCase();
+    const lastname = lastnamee.toUpperCase();
+    const name = namee.toUpperCase();
     const body = await fetchConToken(
       `auth/edit`,
       { email, name, lastname, office },
@@ -57,10 +59,11 @@ export const startUpdateUser = (email, namee, lastnamee, office) => {
   };
 };
 
-export const startUpdateUserFromAdmin = (email, namee, lastnamee, office, role, status) => {
+export const startUpdateUserFromAdmin = (emaill, namee, lastnamee, office, role, status) => {
   return async (dispatch) => {
-    let lastname = lastnamee.toUpperCase();
-    let name = namee.toUpperCase();
+    const email = emaill.toLowerCase();
+    const lastname = lastnamee.toUpperCase();
+    const name = namee.toUpperCase();
     const body = await fetchConToken(
       `auth/editadmin`,
       { email, name, lastname, office, role, status },

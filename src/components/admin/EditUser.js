@@ -35,25 +35,28 @@ export const EditUser = () => {
     { value: 'Jacksonville', label: 'Jacksonville' },
   ];
 
-  useEffect(async () => {
-    setIsLoading(true);
-    const { user: userSelected } = await fetchConToken(`auth/${localStorage.getItem('userId')}`);
-    reset({
-      sName: userSelected ? userSelected.name : '',
-      sLastname: userSelected ? userSelected.lastname : '',
-      sEmail: userSelected ? userSelected.email : '',
-    })
-    setOffice(userSelected ? { value: userSelected.office, label: userSelected.office } : null);
-    setRole(userSelected
-      ?
-      roles.filter((v) => {
-        return userSelected.role === v.value;
+  useEffect(() => {
+    const initialize = async () => {
+      setIsLoading(true);
+      const { user: userSelected } = await fetchConToken(`auth/${localStorage.getItem('userId')}`);
+      reset({
+        sName: userSelected ? userSelected.name : '',
+        sLastname: userSelected ? userSelected.lastname : '',
+        sEmail: userSelected ? userSelected.email : '',
       })
-      :
-      null
-    );
-    setStatus(userSelected ? userSelected.status : true);
-    setIsLoading(false);
+      setOffice(userSelected ? { value: userSelected.office, label: userSelected.office } : null);
+      setRole(userSelected
+        ?
+        roles.filter((v) => {
+          return userSelected.role === v.value;
+        })[0]
+        :
+        null
+      );
+      setStatus(userSelected ? userSelected.status : true);
+      setIsLoading(false);
+    }
+    initialize();
   }, [])
 
   const { sName, sLastname, sEmail } = formUserValues;

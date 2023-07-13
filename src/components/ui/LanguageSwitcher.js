@@ -6,7 +6,16 @@ import enUSFlag from '../../images/enUS-flag.png';
 import esESFlag from '../../images/esES-flag.png';
 
 const colourStyles = {
-  control: styles => ({ ...styles, width: '9%', position: 'fixed', bottom: '0px', right: '0px', margin: '1%' }),
+  control: (styles) => {
+    return {
+      ...styles,
+      width: '6rem',
+      position: 'fixed',
+      bottom: '0px',
+      right: '0px',
+      margin: '1rem'
+    }
+  },
   option: (styles) => {
     return {
       ...styles,
@@ -38,8 +47,8 @@ export const LanguageSwitcher = () => {
     i18n.changeLanguage(e.value);
   };
   return (
-    <>
+    <div>
       <Select placeholder={t('select.placeholder')} menuPosition='fixed' menuPlacement='auto' styles={colourStyles} options={languages} value={language} onChange={handleLanguage} />
-    </>
+    </div>
   );
 };

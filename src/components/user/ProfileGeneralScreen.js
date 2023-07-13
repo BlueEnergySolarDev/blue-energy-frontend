@@ -47,7 +47,7 @@ export const ProfileGeneralScreen = ({ user }) => {
       {user ?
         <div className="d-flex flex-column justify-content-center align-items-center mb-5" data-aos="fade-up" data-aos-duration="1000">
           <form onSubmit={handleUpdate} className={isMobile ? "w-95" : "w-50"}>
-            <h2 className="mb-1 text-dark text-center">{t('profile.general')}</h2>
+            <h3 className="mb-1 text-dark text-center h4">{t('profile.general')}</h3>
             <hr className="bg-dark" />
             <div className="form-group">
               <label>{t('labels.first_name')}</label>

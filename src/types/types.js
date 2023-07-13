@@ -1,6 +1,8 @@
 export const types = {
   uiOpenModal: "[UI] Open Modal",
   uiCloseModal: "[UI] Close Modal",
+  uiOpenModall: "[UI] Open Modall",
+  uiCloseModall: "[UI] Close Modall",
 
   authChecking: "[Auth] Checking login state",
   authCheckingFinish: "[Auth] Finish checking login state",
@@ -19,4 +21,7 @@ export const types = {
   userSelected: "[User] Set user",
 
   sitDownSelected: "[Sit Down] Set sit down detail",
+
+  setCloser: "[Closer] Set closer",
+  setCanvasser: "[Canvasser] Set canvasser"
 };

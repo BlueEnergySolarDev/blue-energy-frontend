@@ -79,7 +79,9 @@ const enUS = {
         title: 'Success',
         amount_update: 'Amount updated sucessfully',
         sit_down_created: 'Detailed Sit Down Created',
-        sit_down_updated: 'Detailed Sit Down Updated'
+        sit_down_updated: 'Detailed Sit Down Updated',
+        closer_created: 'Closer created',
+        canvasser_created: 'Canvasser created'
     },
     buttons: {
         save: 'Save',
@@ -116,9 +118,15 @@ const enUS = {
         change_password: 'Change password',
         general: 'General'
     },
-    select:{
+    select: {
         placeholder: 'Select...'
-    }
+    },
+    closers: {
+        create: 'Add closer'
+    },
+    canvassers: {
+        create: 'Add canvasser'
+    },
 };
 
 export default enUS;

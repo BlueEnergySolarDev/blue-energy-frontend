@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Select from 'react-select';
@@ -16,11 +16,15 @@ import { useForm } from '../../hooks/useForm';
 import { PaginatedSitDownsAddedItems } from './PaginatedSitDownsAddedItems';
 import { fetchConToken } from '../../helpers/fetch';
 import colourStyles from '../../helpers/selectStyles';
+import { uiOpenModal, uiOpenModall } from '../../actions/ui';
+import { AddCloserModal } from './AddCloserModal';
+import { AddCanvasserModal } from './AddCanvasserModal';
 
 export const AddSitDown = () => {
   const { t } = useTranslation();
   const { office, uid } = useSelector((state) => state.auth);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formSitDownValues, handleSitDownInputChange] = useForm({
     sName: '',
     sAddress: '',
@@ -30,9 +34,9 @@ export const AddSitDown = () => {
   });
   const { sName, sAddress, sPhoneNumber, sEmail, sReason } = formSitDownValues;
   const [sitDowns, setSitDowns] = useState([]);
-  const { data: closersApi } = useSWR("closers");
+  const { data: closersApi, mutate: mutateCloser } = useSWR("closers");
   const closers = [];
-  const { data: canvasserApi } = useSWR("canvassers");
+  const { data: canvasserApi, mutate: mutateCanvasser } = useSWR("canvassers");
   const canvassers = [];
   const statuses = [
     { value: 'processed', label: <span><i className="fas fa-spinner text-muted"></i> {t('labels.processed')}</span> },
@@ -116,6 +120,12 @@ export const AddSitDown = () => {
   const handleReturn = () => {
     navigate('/sitdowndetail');
   };
+  const goCreateCloser = () => {
+    dispatch(uiOpenModal());
+  };
+  const goCreateCanvasser = () => {
+    dispatch(uiOpenModall());
+  };
   return (
     <>{
       isMobile
@@ -190,14 +200,16 @@ export const AddSitDown = () => {
               </div>
               <div className="form-group mb-3">
                 <label className='text-light'>{t('labels.closer')}</label>
-                <div className="w-100">
-                  <Select placeholder={t('select.placeholder')} styles={colourStyles} options={closers} value={closer} onChange={handleCloser} />
+                <div className="w-100 row">
+                  <Select className='col-10' placeholder={t('select.placeholder')} styles={colourStyles} options={closers} value={closer} onChange={handleCloser} />
+                  <button className='col btn btn-success btn-sm ms-1' onClick={goCreateCloser} type="button"><i className="fa-solid fa-user-plus"></i></button>
                 </div>
               </div>
               <div className="form-group mb-3">
                 <label className='text-light'>{t('labels.canvasser')}</label>
-                <div className="w-100">
-                  <Select placeholder={t('select.placeholder')} styles={colourStyles} options={canvassers} value={canvasser} onChange={handleCanvasser} />
+                <div className="w-100 row">
+                  <Select className='col-10' placeholder={t('select.placeholder')} styles={colourStyles} options={canvassers} value={canvasser} onChange={handleCanvasser} />
+                  <button className='col btn btn-success btn-sm ms-1' onClick={goCreateCanvasser} type="button"><i className="fa-solid fa-user-plus"></i></button>
                 </div>
               </div>
               <div className="form-group mb-3">
@@ -225,6 +237,8 @@ export const AddSitDown = () => {
               :
               <span className="h3 mb-5">{t('detailed_sit_downs.register.empty')}</span>
           }
+          <AddCloserModal setCloser={setCloser} mutate={mutateCloser} />
+          <AddCanvasserModal setCanvasser={setCanvasser} mutate={mutateCanvasser} />
         </div>
         :
         <div className='d-flex flex-column justify-content-center align-items-center mt-4' data-aos="fade-up" data-aos-duration="1000">
@@ -297,14 +311,16 @@ export const AddSitDown = () => {
               </div>
               <div className="form-group mb-3">
                 <label className='text-light'>{t('labels.closer')}</label>
-                <div className="w-100">
-                  <Select placeholder={t('select.placeholder')} styles={colourStyles} options={closers} value={closer} onChange={handleCloser} />
+                <div className="w-100 row">
+                  <Select className='col-xxl-11 col-xl-11 col-lg-10 col-md-10 col-sm-9 col-auto' placeholder={t('select.placeholder')} styles={colourStyles} options={closers} value={closer} onChange={handleCloser} />
+                  <button className='col btn btn-success btn-sm ms-1' onClick={goCreateCloser} type="button"><i className="fa-solid fa-user-plus"></i></button>
                 </div>
               </div>
               <div className="form-group mb-3">
                 <label className='text-light'>{t('labels.canvasser')}</label>
-                <div className="w-100">
-                  <Select placeholder={t('select.placeholder')} styles={colourStyles} options={canvassers} value={canvasser} onChange={handleCanvasser} />
+                <div className="w-100 row">
+                  <Select className='col-xxl-11 col-xl-11 col-lg-10 col-md-10 col-sm-9 col-auto' placeholder={t('select.placeholder')} styles={colourStyles} options={canvassers} value={canvasser} onChange={handleCanvasser} />
+                  <button className='col btn btn-success btn-sm ms-1' onClick={goCreateCanvasser} type="button"><i className="fa-solid fa-user-plus"></i></button>
                 </div>
               </div>
               <div className="form-group mb-3">
@@ -332,6 +348,8 @@ export const AddSitDown = () => {
               :
               <span className="h3 mb-5">{t('detailed_sit_downs.register.empty')}</span>
           }
+          <AddCloserModal setCloser={setCloser} mutate={mutateCloser} />
+          <AddCanvasserModal setCanvasser={setCanvasser} mutate={mutateCanvasser} />
         </div>
     }</>
   );

@@ -4,6 +4,7 @@ import { isMobile } from 'react-device-detect';
 import useSWR from "swr"
 import { format } from 'date-fns';
 import { useTranslation } from 'react-i18next';
+import Select from 'react-select';
 import DateTimePicker from 'react-datetime-picker';
 import 'react-datetime-picker/dist/DateTimePicker.css';
 import 'react-calendar/dist/Calendar.css';
@@ -13,6 +14,7 @@ import { fetchConToken } from '../../helpers/fetch';
 import { OfficeCard } from '../user/OfficeCard';
 import { PaginatedSitDownsSimplesItems } from '../sitdownsimple/PaginatedSitDownsSimplesItems';
 import { LoadingSpinner } from '../ui/LoadingSpinner';
+import colourStyles from '../../helpers/selectStyles';
 
 export const AdminScreen = () => {
   const { t } = useTranslation();
@@ -21,6 +23,27 @@ export const AdminScreen = () => {
   const [sitDownsSimples, setSitDownsSimples] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingTable, setLoadingTable] = useState(false);
+  const officess = [
+    { value: 'Boca Raton', label: 'Boca Raton' },
+    { value: 'Bradenton', label: 'Bradenton' },
+    { value: 'Cape Coral', label: 'Cape Coral' },
+    { value: 'Jacksonville', label: 'Jacksonville' },
+  ];
+  const [office, setOffice] = useState(null);
+
+  const handleOffice = (e) => {
+    setLoadingTable(true);
+    setDate(null);
+    setOffice(e);
+    if (e) {
+      const searchSitDownSimples = async () => {
+        const body = await fetchConToken(`sitdowns/simple/${e.value}`);
+        setSitDownsSimples(body.sitDownsSimples);
+        setLoadingTable(false);
+      }
+      searchSitDownSimples();
+    }
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -47,6 +70,7 @@ export const AdminScreen = () => {
   };
   const removeFilter = () => {
     setDate(null);
+    setOffice(null);
     setLoadingTable(true);
     const getSitDownsSimples = async () => {
       const body = await fetchConToken("sitdowns/simple");
@@ -124,6 +148,9 @@ export const AdminScreen = () => {
                               format='MM-dd-yyyy'
                             />
                           </div>
+                          <div>
+                            <Select placeholder={t('select.placeholder')} styles={colourStyles} options={officess} value={office} onChange={handleOffice} />
+                          </div>
                           <div className="mt-2 d-grid gap-2">
                             <button type="submit" className='btn btn-danger' onClick={removeFilter}><i className="fas fa-trash"></i> {t('filters.remove_filter')}</button>
                           </div>
@@ -199,6 +226,9 @@ export const AdminScreen = () => {
                               className="form-control mb-2"
                               format='MM-dd-yyyy'
                             />
+                          </div>
+                          <div>
+                            <Select placeholder={t('select.placeholder')} styles={colourStyles} options={officess} value={office} onChange={handleOffice} />
                           </div>
                           <div className="mt-2 d-grid gap-2">
                             <button type="submit" className='btn btn-danger' onClick={removeFilter}><i className="fas fa-trash"></i> {t('filters.remove_filter')}</button>

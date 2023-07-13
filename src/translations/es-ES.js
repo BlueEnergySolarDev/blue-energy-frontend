@@ -79,7 +79,9 @@ const esES = {
         title: 'Exito',
         amount_update: 'Cantidad actualizada exitosamente',
         sit_down_created: 'Sentada detallada creada',
-        sit_down_updated: 'Sentada detalla actualizada'
+        sit_down_updated: 'Sentada detalla actualizada',
+        closer_created: 'Cerrador creado',
+        canvasser_created: 'Representante creado'
     },
     buttons: {
         save: 'Guardar',
@@ -116,9 +118,15 @@ const esES = {
         change_password: 'Cambiar contraseña',
         general: 'General'
     },
-    select:{
+    select: {
         placeholder: 'Seleccionar...'
-    }
+    },
+    closers: {
+        create: 'Agregar cerrador'
+    },
+    canvassers: {
+        create: 'Agregar representante'
+    },
 };
 
 export default esES;
